@@ -32,8 +32,8 @@
       <div class="sec-eyebrow"><span class="eyebrow">Le bureau d'études</span></div>
       <h2 class="sec-title" style="margin-bottom:36px">Restons en <em>contact</em>.</h2>
       <div class="row"><div class="ic">◷</div><div><div class="k">Adresse</div><div class="v">Cocody, Abidjan<small>Côte d'Ivoire</small></div></div></div>
-      <div class="row"><div class="ic">☏</div><div><div class="k">Téléphone</div><div class="v">+225 27 22 00 00 00<small>Du lundi au vendredi, 8h – 18h</small></div></div></div>
-      <div class="row"><div class="ic">✉</div><div><div class="k">Email</div><div class="v">contact@imlux.ci</div></div></div>
+      <div class="row"><div class="ic">☏</div><div><div class="k">Téléphone / WhatsApp</div><div class="v"><a href="https://wa.me/2250545870606" target="_blank" rel="noopener" style="color:inherit">+225 05 45 87 06 06</a><small>Disponible sur WhatsApp · Lun – Ven, 8h – 18h</small></div></div></div>
+      <div class="row"><div class="ic">✉</div><div><div class="k">Email</div><div class="v"><a href="mailto:contact@imlux.ci" style="color:inherit">contact@imlux.ci</a></div></div></div>
     </div>
     <div class="cpanel">
       <h3>Créez votre compte</h3>

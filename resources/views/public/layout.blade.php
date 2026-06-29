@@ -194,11 +194,19 @@ footer{background:linear-gradient(180deg,#1F46B8 0%,#16329B 52%,#0E2569 100%);bo
       </div>
       <div class="foot"><h5>Explorer</h5><ul><li><a href="{{ route('presentation') }}">Le bureau d'études</a></li><li><a href="{{ route('biens') }}">Nos offres</a></li><li><a href="{{ route('adhesion') }}">L'adhésion</a></li><li><a href="{{ route('faq') }}">FAQ</a></li><li><a href="{{ route('contact') }}">Contact</a></li></ul></div>
       <div class="foot"><h5>Adhésion</h5><ul><li><a href="{{ route('register.create') }}">Créer un compte</a></li><li><a href="{{ route('login') }}">Espace membre</a></li><li><a href="{{ route('faq') }}">Apport 35 %</a></li></ul></div>
-      <div class="foot"><h5>Contact</h5><ul><li><a href="{{ route('contact') }}">Abidjan, Côte d'Ivoire</a></li><li><a href="#">+225 ...</a></li><li><a href="#">contact@imlux.ci</a></li></ul></div>
+      <div class="foot"><h5>Contact</h5><ul><li><a href="{{ route('contact') }}">Abidjan, Côte d'Ivoire</a></li><li><a href="https://wa.me/2250545870606" target="_blank" rel="noopener">📱 +225 05 45 87 06 06 (WhatsApp)</a></li><li><a href="mailto:contact@imlux.ci">contact@imlux.ci</a></li></ul></div>
     </div>
     <div class="foot-bottom"><div>© {{ date('Y') }} Lorny Conseils Management — Abidjan</div><div>RCCM CI-ABJ · NCC</div></div>
   </div>
 </footer>
+
+{{-- Bouton flottant WhatsApp (toutes les pages publiques) --}}
+<a href="https://wa.me/2250545870606?text={{ rawurlencode('Bonjour Lorny Conseils Management, je souhaite des informations.') }}"
+   target="_blank" rel="noopener" aria-label="Écrire sur WhatsApp"
+   style="position:fixed;right:22px;bottom:22px;z-index:90;display:inline-flex;align-items:center;justify-content:center;width:58px;height:58px;border-radius:50%;background:#25D366;box-shadow:0 10px 28px rgba(37,211,102,.45);transition:transform .2s"
+   onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+  <svg viewBox="0 0 32 32" width="30" height="30" fill="#fff" aria-hidden="true"><path d="M16.04 3C9.4 3 4 8.4 4 15.04c0 2.12.55 4.18 1.6 6L4 29l8.2-2.15a12 12 0 0 0 3.84.63h.01C22.7 27.48 28 22.08 28 15.44 28 8.8 22.68 3 16.04 3zm0 21.9h-.01c-1.18 0-2.34-.32-3.35-.92l-.24-.14-4.87 1.28 1.3-4.75-.16-.25a9.94 9.94 0 0 1-1.52-5.27c0-5.5 4.48-9.98 9.99-9.98 2.67 0 5.18 1.04 7.06 2.93a9.92 9.92 0 0 1 2.92 7.06c0 5.5-4.48 9.98-9.99 9.98zm5.48-7.48c-.3-.15-1.78-.88-2.06-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.95 1.18-.18.2-.35.22-.65.07-.3-.15-1.27-.47-2.42-1.49-.9-.8-1.5-1.78-1.67-2.08-.18-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.68-1.63-.93-2.23-.24-.59-.49-.5-.68-.51l-.58-.01c-.2 0-.53.07-.8.38-.28.3-1.05 1.03-1.05 2.5 0 1.48 1.08 2.9 1.23 3.1.15.2 2.12 3.24 5.13 4.54.72.31 1.27.5 1.71.64.72.23 1.37.2 1.89.12.58-.09 1.78-.73 2.03-1.43.25-.7.25-1.3.18-1.43-.07-.13-.27-.2-.57-.35z"/></svg>
+</a>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
