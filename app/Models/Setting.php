@@ -46,6 +46,17 @@ class Setting extends Model
         Cache::forget(self::CACHE_KEY);
     }
 
+    /** Incrémente un compteur (ex. téléchargements de l'app) et renvoie la nouvelle valeur. */
+    public static function bump(string $key, int $by = 1): int
+    {
+        $row = self::firstOrCreate(['key' => $key], ['value' => '0']);
+        $new = (int) $row->value + $by;
+        $row->update(['value' => (string) $new]);
+        Cache::forget(self::CACHE_KEY);
+
+        return $new;
+    }
+
     /**
      * Chemin du logo pour DomPDF (fichier local), avec repli sur le logo livré.
      */

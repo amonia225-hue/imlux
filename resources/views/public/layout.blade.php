@@ -177,6 +177,7 @@ footer{background:linear-gradient(180deg,#1F46B8 0%,#16329B 52%,#0E2569 100%);bo
       <a href="{{ route('biens') }}" class="{{ request()->routeIs('biens') ? 'active' : '' }}">Nos offres</a>
       <a href="{{ route('adhesion') }}" class="{{ request()->routeIs('adhesion') ? 'active' : '' }}">L'adhésion</a>
       <a href="{{ route('faq') }}" class="{{ request()->routeIs('faq') ? 'active' : '' }}">FAQ</a>
+      <a href="{{ route('application') }}" class="{{ request()->routeIs('application') ? 'active' : '' }}">Application</a>
       <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a>
     </nav>
     <a class="btn btn-ghost" href="{{ route('register.create') }}" style="padding:13px 22px">Créer un compte</a>
@@ -193,7 +194,7 @@ footer{background:linear-gradient(180deg,#1F46B8 0%,#16329B 52%,#0E2569 100%);bo
         <p><strong style="color:var(--light)">Projet IMLUX</strong> — l'accompagnement vers la propriété : programmes, échéanciers, travaux et titres.</p>
       </div>
       <div class="foot"><h5>Explorer</h5><ul><li><a href="{{ route('presentation') }}">Le bureau d'études</a></li><li><a href="{{ route('biens') }}">Nos offres</a></li><li><a href="{{ route('adhesion') }}">L'adhésion</a></li><li><a href="{{ route('faq') }}">FAQ</a></li><li><a href="{{ route('contact') }}">Contact</a></li></ul></div>
-      <div class="foot"><h5>Adhésion</h5><ul><li><a href="{{ route('register.create') }}">Créer un compte</a></li><li><a href="{{ route('login') }}">Espace membre</a></li><li><a href="{{ route('faq') }}">Apport 35 %</a></li></ul></div>
+      <div class="foot"><h5>Adhésion</h5><ul><li><a href="{{ route('register.create') }}">Créer un compte</a></li><li><a href="{{ route('login') }}">Espace membre</a></li><li><a href="{{ route('application') }}">Application mobile</a></li><li><a href="{{ route('faq') }}">Apport 35 %</a></li></ul></div>
       <div class="foot"><h5>Contact</h5><ul><li><a href="{{ route('contact') }}">Abidjan, Côte d'Ivoire</a></li><li><a href="https://wa.me/2250545870606" target="_blank" rel="noopener">📱 +225 05 45 87 06 06 (WhatsApp)</a></li><li><a href="mailto:contact@imlux.ci">contact@imlux.ci</a></li></ul></div>
     </div>
     <div class="foot-bottom"><div>© {{ date('Y') }} Lorny Conseils Management — Abidjan · Développé par <a href="https://amoniagroup.com" target="_blank" rel="noopener" style="color:var(--orange-soft)">AMONIA GROUP</a></div><div>RCCM CI-ABJ · NCC</div></div>

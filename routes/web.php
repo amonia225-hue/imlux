@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BienController;
 use App\Http\Controllers\ChantierController;
 use App\Http\Controllers\ConsultationController;
+use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\IlotController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\PublicController;
@@ -21,6 +22,8 @@ Route::get('/adhesion', [PublicController::class, 'adhesion'])->name('adhesion')
 Route::get('/faq', [PublicController::class, 'faq'])->name('faq');
 Route::get('/contact', [PublicController::class, 'contact'])->name('contact');
 Route::get('/inscription', [RegisterController::class, 'create'])->name('register.create');
+Route::get('/application', [DownloadController::class, 'page'])->name('application');
+Route::get('/telecharger-app', [DownloadController::class, 'apk'])->name('app.download');
 Route::post('/inscription', [RegisterController::class, 'store'])
     ->middleware('throttle:6,1')->name('register.store');
 
