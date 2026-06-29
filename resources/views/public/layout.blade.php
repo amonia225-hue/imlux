@@ -190,7 +190,8 @@ footer{background:linear-gradient(180deg,#1F46B8 0%,#16329B 52%,#0E2569 100%);bo
     <div class="foot-grid">
       <div class="foot">
         <a class="logo" href="{{ route('home') }}"><span class="chip"><img src="{{ $logo }}" alt=""></span><span class="bn">Lorny<small>Conseils Management</small></span></a>
-        <p>Le bureau d'études qui vous accompagne vers la propriété — programmes, échéanciers, travaux et titres.</p>
+        <p><strong style="color:var(--light)">Projet IMLUX</strong> — l'accompagnement vers la propriété : programmes, échéanciers, travaux et titres.</p>
+        <p style="margin-top:12px;font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;color:var(--orange-soft)">Développé par <strong>AMONIA GROUP</strong></p>
       </div>
       <div class="foot"><h5>Explorer</h5><ul><li><a href="{{ route('presentation') }}">Le bureau d'études</a></li><li><a href="{{ route('biens') }}">Nos offres</a></li><li><a href="{{ route('adhesion') }}">L'adhésion</a></li><li><a href="{{ route('faq') }}">FAQ</a></li><li><a href="{{ route('contact') }}">Contact</a></li></ul></div>
       <div class="foot"><h5>Adhésion</h5><ul><li><a href="{{ route('register.create') }}">Créer un compte</a></li><li><a href="{{ route('login') }}">Espace membre</a></li><li><a href="{{ route('faq') }}">Apport 35 %</a></li></ul></div>
