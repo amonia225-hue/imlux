@@ -5,6 +5,12 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+// Firebase : on applique le plugin google-services UNIQUEMENT si le fichier
+// google-services.json est présent. Ainsi l'app compile avec OU sans Firebase.
+if (file("google-services.json").exists()) {
+    apply(plugin = "com.google.gms.google-services")
+}
+
 android {
     namespace = "ci.imlux.app"
     compileSdk = flutter.compileSdkVersion

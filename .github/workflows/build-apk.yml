@@ -30,6 +30,18 @@ jobs:
       - name: Flutter version
         run: flutter --version
 
+      - name: Inject google-services.json (Firebase, si secret présent)
+        working-directory: mobile
+        env:
+          GS: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: |
+          if [ -n "$GS" ]; then
+            echo "$GS" | base64 -d > android/app/google-services.json
+            echo "google-services.json injecté — Firebase activé."
+          else
+            echo "Pas de secret GOOGLE_SERVICES_JSON — build sans Firebase (push désactivé)."
+          fi
+
       - name: Dependencies
         working-directory: mobile
         run: flutter pub get
