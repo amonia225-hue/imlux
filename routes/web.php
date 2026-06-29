@@ -68,6 +68,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
     // Versements
     Route::post('/versements', [AdminController::class, 'storeVersement'])->name('versements.store');
+    Route::post('/versements/{versement}/recu', [AdminController::class, 'uploadRecu'])->name('versements.recu');
     Route::post('/versements/{versement}/delete', [AdminController::class, 'destroyVersement'])->name('versements.destroy');
 
     // Paramètres (en-têtes documents)
@@ -86,6 +87,17 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 Route::get('/pdf/facture/{versement}', [PdfController::class, 'facture'])->name('pdf.facture');
 Route::get('/pdf/attestation/{souscription}', [PdfController::class, 'attestation'])->name('pdf.attestation');
 Route::get('/pdf/frais/{souscripteur}', [PdfController::class, 'fraisRecu'])->name('pdf.frais');
+// Reçu de paiement uploadé par l'admin (admin connecté OU URL signée)
+Route::get('/pdf/versement/{versement}/recu', [PdfController::class, 'versementRecu'])->name('pdf.versement.recu');
+
+// ======== MÉDIAS (photos de chantier servies sans dépendre du symlink storage) ========
+Route::get('/media/{path}', function (string $path) {
+    $base = realpath(storage_path('app/public'));
+    $full = realpath(storage_path('app/public/' . $path));
+    abort_unless($full && $base && str_starts_with($full, $base) && is_file($full), 404);
+
+    return response()->file($full);
+})->where('path', '.*')->name('media');
 
 // ======== ESPACE CONSULTANT (PUBLIC, throttlé) ========
 Route::middleware('throttle:20,1')->group(function () {

@@ -41,6 +41,7 @@ class Versement {
   final String? reference;
   final String? note;
   final String factureUrl;
+  final String? recuUrl;
 
   Versement({
     required this.id,
@@ -50,6 +51,7 @@ class Versement {
     this.reference,
     this.note,
     required this.factureUrl,
+    this.recuUrl,
   });
 
   factory Versement.fromJson(Map<String, dynamic> j) => Versement(
@@ -60,6 +62,7 @@ class Versement {
         reference: j['reference'],
         note: j['note'],
         factureUrl: j['facture_url'] ?? '',
+        recuUrl: j['recu_url'],
       );
 }
 

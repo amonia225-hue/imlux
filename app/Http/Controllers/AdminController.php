@@ -375,7 +375,15 @@ class AdminController extends Controller
             'payment_method' => ['required', 'in:especes,cheque,virement,mobile_money'],
             'reference' => ['nullable', 'string', 'max:120'],
             'note' => ['nullable', 'string', 'max:1000'],
+            'recu' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:8192'],
         ]);
+
+        // Reçu de paiement éventuellement joint par l'admin
+        if ($request->hasFile('recu')) {
+            $validated['recu'] = $request->file('recu')->store('recus', 'public');
+        } else {
+            unset($validated['recu']);
+        }
 
         $versement = Versement::create($validated);
 
@@ -412,6 +420,21 @@ class AdminController extends Controller
         }
 
         return redirect(route('admin.dashboard') . '#versements')->with('success', 'Versement enregistre avec succes.');
+    }
+
+    /** Joint (ou remplace) le reçu de paiement uploadé par l'admin sur un versement existant. */
+    public function uploadRecu(Request $request, Versement $versement): RedirectResponse
+    {
+        $request->validate([
+            'recu' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:8192'],
+        ]);
+
+        if ($versement->recu) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($versement->recu);
+        }
+        $versement->update(['recu' => $request->file('recu')->store('recus', 'public')]);
+
+        return redirect(route('admin.dashboard') . '#versements')->with('success', 'Reçu ajouté au versement.');
     }
 
     public function destroyVersement(Versement $versement): RedirectResponse

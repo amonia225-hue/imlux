@@ -44,6 +44,9 @@ class SouscriptionController extends Controller
                 'reference' => $v->reference,
                 'note' => $v->note,
                 'facture_url' => URL::temporarySignedRoute('pdf.facture', now()->addDays(7), $v),
+                'recu_url' => $v->recu
+                    ? URL::temporarySignedRoute('pdf.versement.recu', now()->addDays(7), $v)
+                    : null,
             ]),
             'attestation_url' => URL::temporarySignedRoute('pdf.attestation', now()->addDays(7), $souscription),
             'travaux' => $this->travaux($souscription),
@@ -69,7 +72,7 @@ class SouscriptionController extends Controller
                 'status_label' => $e->statusLabel(),
                 'date_prevue' => $e->date_prevue?->toDateString(),
                 'date_realisee' => $e->date_realisee?->toDateString(),
-                'photo_url' => $e->photo ? asset('storage/' . $e->photo) : null,
+                'photo_url' => $e->photo ? url('media/' . $e->photo) : null,
                 'images' => array_map(fn ($img) => $img['url'], $e->images()),
             ])->values(),
         ];

@@ -238,10 +238,29 @@ class _SouscriptionDetailScreenState extends State<SouscriptionDetailScreen> {
                           ],
                         ),
                       ),
-                      TextButton(
-                        onPressed: () => _open(v.factureUrl),
-                        child: const Text('Reçu',
-                            style: TextStyle(color: AppColors.gold)),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          TextButton(
+                            onPressed: () => _open(v.factureUrl),
+                            child: const Text('Facture',
+                                style: TextStyle(color: AppColors.gold)),
+                          ),
+                          if (v.recuUrl != null)
+                            TextButton(
+                              onPressed: () => _open(v.recuUrl!),
+                              child: const Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.receipt_long_outlined,
+                                      size: 16, color: AppColors.success),
+                                  SizedBox(width: 4),
+                                  Text('Reçu',
+                                      style: TextStyle(color: AppColors.success)),
+                                ],
+                              ),
+                            ),
+                        ],
                       ),
                     ],
                   ),

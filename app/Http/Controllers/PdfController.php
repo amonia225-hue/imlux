@@ -29,6 +29,21 @@ class PdfController extends Controller
         }
     }
 
+    /**
+     * Sert le reçu de paiement uploadé par l'admin (image ou PDF).
+     * Accès : admin connecté OU URL signée (générée pour l'app/le client).
+     */
+    public function versementRecu(Request $request, Versement $versement)
+    {
+        $this->authorizeAccess($request);
+
+        abort_unless($versement->recu, 404, 'Aucun reçu pour ce versement.');
+        $full = storage_path('app/public/' . $versement->recu);
+        abort_unless(is_file($full), 404, 'Reçu introuvable.');
+
+        return response()->file($full);
+    }
+
     /** Logo embarqué en data-URI base64 (rendu fiable sous DomPDF, sans accès distant). */
     private function logoSrc(): string
     {

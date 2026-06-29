@@ -12,7 +12,7 @@ class Versement extends Model
 
     protected $fillable = [
         'souscription_id', 'amount', 'payment_date', 'payment_method',
-        'reference', 'note', 'invoice_path',
+        'reference', 'note', 'invoice_path', 'recu',
     ];
 
     public function auditLabel(): string

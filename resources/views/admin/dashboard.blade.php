@@ -965,7 +965,7 @@
                     <div class="panel">
                         <h3>💰 Enregistrer un versement</h3>
                         <p class="subtitle">Sélectionnez d'abord le client pour voir son reste à payer, puis enregistrez le versement.</p>
-                        <form method="POST" action="{{ route('versements.store') }}" class="form-grid" style="margin-top: .8rem;">
+                        <form method="POST" action="{{ route('versements.store') }}" enctype="multipart/form-data" class="form-grid" style="margin-top: .8rem;">
                             @csrf
                             <div>
                                 <label>1. Client</label>
@@ -1015,6 +1015,7 @@
                                 </select>
                             </div>
                             <div><label>Référence</label><input name="reference" value="{{ old('reference') }}" placeholder="Ex: CHQ-2026-001"></div>
+                            <div><label>Reçu (image ou PDF — visible par le client)</label><input name="recu" type="file" accept="image/*,application/pdf"></div>
                             <div style="grid-column:1/-1"><label>Note</label><textarea name="note" placeholder="Commentaire..." style="min-height:60px">{{ old('note') }}</textarea></div>
                             <div><button class="btn" type="submit">Enregistrer le versement</button></div>
                         </form>
@@ -1036,6 +1037,14 @@
                                             <td>
                                                 <div class="row-actions">
                                                     <a href="{{ route('pdf.facture', $v) }}" target="_blank" class="icon-btn">Facture</a>
+                                                    @if ($v->recu)
+                                                        <a href="{{ route('pdf.versement.recu', $v) }}" target="_blank" class="icon-btn">Voir reçu</a>
+                                                    @endif
+                                                    <form method="POST" action="{{ route('versements.recu', $v) }}" enctype="multipart/form-data" style="display:inline-flex;gap:.3rem;align-items:center">
+                                                        @csrf
+                                                        <input type="file" name="recu" accept="image/*,application/pdf" required style="max-width:150px;font-size:.78rem">
+                                                        <button type="submit" class="icon-btn">{{ $v->recu ? 'Remplacer' : 'Joindre reçu' }}</button>
+                                                    </form>
                                                     <form method="POST" action="{{ route('versements.destroy', $v) }}" onsubmit="return confirm('Supprimer ce versement ?');">
                                                         @csrf
                                                         <button type="submit" class="icon-btn danger">Supprimer</button>

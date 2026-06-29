@@ -49,11 +49,11 @@ class ChantierEtape extends Model
     {
         $images = [];
         if ($this->photo) {
-            $images[] = ['id' => null, 'url' => asset('storage/' . $this->photo)];
+            $images[] = ['id' => null, 'url' => url('media/' . $this->photo)];
         }
         $gallery = $this->relationLoaded('photos') ? $this->photos : $this->photos()->get();
         foreach ($gallery as $p) {
-            $images[] = ['id' => $p->id, 'url' => asset('storage/' . $p->path)];
+            $images[] = ['id' => $p->id, 'url' => url('media/' . $p->path)];
         }
         return $images;
     }
