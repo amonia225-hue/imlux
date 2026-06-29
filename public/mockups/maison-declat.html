@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maison d'Éclat — Immobilier de Prestige</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,500;1,700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#14110C; --bg2:#1C1812; --ink:#14110C; --gold:#C6A052; --gold2:#B08A3E; --gold-soft:#D8BE84;
+  --cream:#F2ECE0; --cream2:#CFC6B6; --muted:#8C8576; --line:rgba(198,160,82,.22);
+  --serif:'Playfair Display',serif; --sans:'Jost',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--cream);-webkit-font-smoothing:antialiased;line-height:1.7;font-weight:300}
+.wrap{max-width:1320px;margin:0 auto;padding:0 48px}
+a{text-decoration:none;color:inherit}
+.gold{color:var(--gold)}
+.eyebrow{font-family:var(--sans);font-weight:500;font-size:12px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold)}
+.btn{font-family:var(--sans);font-weight:500;font-size:13px;letter-spacing:.16em;text-transform:uppercase;padding:18px 30px;cursor:pointer;border:1px solid transparent;transition:.3s;display:inline-flex;align-items:center;gap:12px}
+.btn-gold{background:var(--gold);color:#1c1407}.btn-gold:hover{background:var(--gold-soft)}
+.btn-outline{background:transparent;color:var(--cream);border-color:rgba(242,236,224,.45)}.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+.btn-ghostgold{background:transparent;color:var(--gold);border:1px solid var(--gold)}.btn-ghostgold:hover{background:var(--gold);color:#1c1407}
+
+/* header */
+header{position:fixed;top:0;left:0;right:0;z-index:50;transition:.4s;background:linear-gradient(180deg,rgba(12,10,7,.72),rgba(12,10,7,0))}
+header.solid{background:rgba(16,13,9,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:104px;transition:.4s}
+header.solid .nav{height:80px}
+.logo{display:flex;align-items:baseline;gap:14px}
+.logo .nm{font-family:var(--serif);font-weight:700;font-size:30px;color:var(--gold);letter-spacing:.01em}
+.logo .nm em{font-style:italic}
+.logo .tg{font-family:var(--sans);font-weight:400;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--cream2)}
+.menu{display:flex;gap:44px;font-size:14px;font-weight:400;letter-spacing:.04em;color:var(--cream)}
+.menu a{position:relative;padding:4px 0}.menu a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:1px;background:var(--gold);transition:.3s}
+.menu a:hover{color:var(--gold)}.menu a:hover::after{width:100%}
+
+/* hero */
+.hero{position:relative;height:100vh;min-height:720px;overflow:hidden;display:flex;align-items:center;background:#0f0c08}
+.hero-bg{position:absolute;inset:0;background:url('/image/lorny-hero.jpg') center/cover no-repeat,linear-gradient(120deg,#2a2114,#0f0c08);will-change:transform}
+.hero-grad{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,8,5,.86) 0%,rgba(10,8,5,.5) 42%,rgba(10,8,5,.2) 70%,rgba(10,8,5,.45) 100%)}
+.hero-content{position:relative;z-index:3;width:100%}
+.hero h1{font-family:var(--serif);font-weight:700;font-size:clamp(56px,8vw,118px);line-height:.98;letter-spacing:-.01em;color:var(--cream);margin:26px 0 0}
+.hero h1 .it{display:block;font-style:italic;font-weight:700;color:var(--gold);margin-top:6px}
+.hero .sub{font-family:var(--sans);font-weight:300;font-size:clamp(16px,1.5vw,19px);color:var(--cream2);max-width:46ch;margin:30px 0 38px;line-height:1.75}
+.hero .cta{display:flex;gap:18px;flex-wrap:wrap}
+.scrollv{position:absolute;right:40px;bottom:40px;z-index:3;writing-mode:vertical-rl;font-family:var(--sans);font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--cream2);display:flex;align-items:center;gap:14px}
+.scrollv::after{content:"";width:1px;height:64px;background:linear-gradient(var(--gold),transparent)}
+
+/* generic section */
+.section{padding:130px 0}
+.sec-eyebrow{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+.sec-eyebrow::before{content:"";width:46px;height:1px;background:var(--gold)}
+.sec-title{font-family:var(--serif);font-weight:500;font-size:clamp(32px,4.4vw,56px);line-height:1.08;letter-spacing:-.01em;color:var(--cream)}
+.sec-title em{font-style:italic;color:var(--gold)}
+.lead{color:var(--cream2);font-weight:300;font-size:17px;max-width:54ch;line-height:1.8;margin-top:18px}
+
+/* intro stats */
+.intro{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg2)}
+.intro .wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:80px;padding:96px 48px;align-items:center}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:42px 30px}
+.stat .n{font-family:var(--serif);font-weight:700;font-size:52px;color:var(--gold);line-height:1}
+.stat .l{font-size:13px;letter-spacing:.06em;color:var(--cream2);margin-top:10px;text-transform:uppercase;font-weight:400}
+
+/* properties */
+.head-row{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;margin-bottom:56px}
+.props{display:grid;grid-template-columns:repeat(3,1fr);gap:30px}
+.pcard{position:relative;overflow:hidden;background:#211b13;border:1px solid var(--line)}
+.pcard .img{height:300px;background-position:center;background-size:cover;position:relative;transition:transform .8s ease}
+.pcard:hover .img{transform:scale(1.06)}
+.pcard .img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,12,8,.1) 30%,rgba(15,12,8,.82))}
+.pcard .tag{position:absolute;top:18px;left:18px;z-index:2;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);padding:6px 12px}
+.pcard .body{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:24px 26px 26px}
+.pcard .loc{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-soft)}
+.pcard h3{font-family:var(--serif);font-weight:500;font-size:25px;color:var(--cream);margin:8px 0 14px}
+.pcard .specs{display:flex;gap:20px;font-size:13px;color:var(--cream2);border-top:1px solid rgba(242,236,224,.16);padding-top:14px}
+.pcard .specs span{display:flex;align-items:center;gap:7px}
+.pcard .price{font-family:var(--serif);font-weight:700;font-size:22px;color:var(--gold);margin-top:14px}
+
+/* services */
+.services{background:var(--bg2);border-top:1px solid var(--line)}
+.svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:60px;border:1px solid var(--line)}
+.svc{padding:46px 36px;border-right:1px solid var(--line);transition:.3s}
+.svc:last-child{border-right:none}.svc:hover{background:rgba(198,160,82,.05)}
+.svc .ic{width:48px;height:48px;color:var(--gold);margin-bottom:24px}
+.svc .ic svg{width:100%;height:100%;stroke:var(--gold);fill:none;stroke-width:1.2}
+.svc h4{font-family:var(--serif);font-weight:500;font-size:23px;color:var(--cream);margin-bottom:12px}
+.svc p{font-size:14.5px;color:var(--cream2);font-weight:300;line-height:1.7}
+
+/* signature split */
+.split .wrap{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.split .img{height:560px;background:linear-gradient(135deg,#3a2f1d,#15110b);position:relative;overflow:hidden;border:1px solid var(--line)}
+.split .img::after{content:"MAISON D'ÉCLAT";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-size:30px;color:rgba(198,160,82,.4);letter-spacing:.1em}
+.split p.body{color:var(--cream2);font-weight:300;font-size:16px;line-height:1.85;margin-top:22px}
+.signoff{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--gold);margin-top:30px}
+
+/* quote */
+.quote{text-align:center;background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.quote .q{font-family:var(--serif);font-weight:500;font-size:clamp(28px,3.6vw,44px);line-height:1.3;color:var(--cream);max-width:22ch;margin:24px auto 0}
+.quote .q em{font-style:italic;color:var(--gold)}
+.quote .who{margin-top:30px;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-soft)}
+
+/* cta band */
+.cta-band{text-align:center}
+.cta-band h2{font-family:var(--serif);font-weight:500;font-size:clamp(34px,5vw,64px);line-height:1.05;color:var(--cream)}
+.cta-band h2 em{font-style:italic;color:var(--gold)}
+.cta-band p{color:var(--cream2);font-weight:300;font-size:17px;margin:22px auto 38px;max-width:48ch}
+
+/* footer */
+footer{background:#0E0B07;border-top:1px solid var(--line);padding:80px 0 36px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:50px}
+.foot .logo{margin-bottom:20px}
+.foot p{color:var(--cream2);font-weight:300;font-size:14.5px;max-width:34ch}
+.foot h5{font-family:var(--sans);font-weight:500;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+.foot ul{list-style:none}.foot li{margin-bottom:12px}.foot a{color:var(--cream2);font-size:14.5px;transition:.2s}.foot a:hover{color:var(--gold)}
+.foot-bottom{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;border-top:1px solid var(--line);margin-top:60px;padding-top:28px;font-size:13px;color:var(--muted)}
+
+@media(max-width:960px){
+  .menu{display:none}.wrap{padding:0 26px}
+  .intro .wrap,.props,.svc-grid,.split .wrap,.foot-grid{grid-template-columns:1fr}
+  .svc{border-right:none;border-bottom:1px solid var(--line)}
+  .scrollv{display:none}
+}
+</style>
+</head>
+<body>
+
+<header id="hdr">
+  <div class="wrap nav">
+    <a class="logo" href="#"><span class="nm">Maison <em>d'Éclat</em></span><span class="tg">Immobilier de Prestige</span></a>
+    <nav class="menu"><a href="#props">Propriétés</a><a href="#services">Services</a><a href="#about">À propos</a><a href="#">Actualités</a></nav>
+    <a class="btn btn-ghostgold" href="#contact" style="padding:14px 24px">Nous contacter</a>
+  </div>
+</header>
+
+<section class="hero" id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-grad"></div>
+  <div class="wrap hero-content">
+    <span class="eyebrow">L'immobilier d'exception</span>
+    <h1>Là où le luxe<span class="it">trouve sa demeure</span></h1>
+    <p class="sub">Une sélection exclusive de propriétés d'exception à travers la France et le monde, pour une clientèle qui refuse le compromis.</p>
+    <div class="cta">
+      <a class="btn btn-gold" href="#props">Découvrir nos biens <span>→</span></a>
+      <a class="btn btn-outline" href="#contact">Estimer mon bien</a>
+    </div>
+  </div>
+  <div class="scrollv">Défiler</div>
+</section>
+
+<section class="intro">
+  <div class="wrap">
+    <div>
+      <div class="sec-eyebrow"><span class="eyebrow">La maison</span></div>
+      <h2 class="sec-title">L'art de révéler<br>les <em>demeures rares</em>.</h2>
+      <p class="lead">Depuis plus de vingt ans, Maison d'Éclat accompagne une clientèle exigeante dans l'acquisition et la cession de biens d'exception. Discrétion, expertise et sens du détail guident chacune de nos transactions.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="n">20+</div><div class="l">Années d'expertise</div></div>
+      <div class="stat"><div class="n">450</div><div class="l">Biens d'exception vendus</div></div>
+      <div class="stat"><div class="n">98%</div><div class="l">Clients satisfaits</div></div>
+      <div class="stat"><div class="n">12</div><div class="l">Pays couverts</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="props">
+  <div class="wrap">
+    <div class="head-row">
+      <div>
+        <div class="sec-eyebrow"><span class="eyebrow">Nos propriétés</span></div>
+        <h2 class="sec-title">Une sélection <em>d'exception</em>.</h2>
+      </div>
+      <a class="btn btn-outline" href="#">Voir tous les biens</a>
+    </div>
+    <div class="props" id="props-grid"></div>
+  </div>
+</section>
+
+<section class="services" id="services">
+  <div class="section wrap">
+    <div class="sec-eyebrow"><span class="eyebrow">Nos services</span></div>
+    <h2 class="sec-title">Un accompagnement <em>sur mesure</em>.</h2>
+    <div class="svc-grid">
+      <div class="svc"><div class="ic"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-6 9 6v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 21V12h6v9"/></svg></div><h4>Vente de prestige</h4><p>La mise en valeur et la diffusion confidentielle de votre bien auprès d'acquéreurs qualifiés.</p></div>
+      <div class="svc"><div class="ic"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><h4>Estimation</h4><p>Une évaluation juste et argumentée, fondée sur notre connaissance fine du marché du luxe.</p></div>
+      <div class="svc"><div class="ic"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a6 6 0 0 1 12 0v2"/></svg></div><h4>Conseil &amp; accompagnement</h4><p>Un interlocuteur unique à vos côtés, de la première visite à la signature.</p></div>
+      <div class="svc"><div class="ic"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20"/><circle cx="12" cy="12" r="10"/><path d="M12 2a15 15 0 0 1 0 20a15 15 0 0 1 0-20"/></svg></div><h4>Recherche internationale</h4><p>L'accès à un réseau privé de biens rares, en France comme aux quatre coins du monde.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section split" id="about">
+  <div class="wrap">
+    <div class="img"></div>
+    <div>
+      <div class="sec-eyebrow"><span class="eyebrow">Notre signature</span></div>
+      <h2 class="sec-title">L'excellence,<br>sans <em>compromis</em>.</h2>
+      <p class="body">Chaque demeure que nous représentons raconte une histoire. Notre rôle est d'en révéler l'âme, de la confier aux mains justes, et d'orchestrer une transaction à la hauteur de son caractère.</p>
+      <p class="body">Une approche feutrée, exigeante, où la confidentialité et le temps long priment sur l'empressement.</p>
+      <p class="signoff">— Maison d'Éclat</p>
+    </div>
+  </div>
+</section>
+
+<section class="quote">
+  <div class="section wrap">
+    <span class="eyebrow">Ils nous ont fait confiance</span>
+    <p class="q">« Une discrétion absolue et un <em>sens du détail</em> rare. La vente de notre villa fut une évidence. »</p>
+    <div class="who">Famille R. — Villa, Cap-Ferrat</div>
+  </div>
+</section>
+
+<section class="section cta-band" id="contact">
+  <div class="wrap">
+    <div class="sec-eyebrow" style="justify-content:center"><span class="eyebrow">Votre projet</span></div>
+    <h2>Confiez-nous<br>votre <em>demeure</em>.</h2>
+    <p>Un conseiller Maison d'Éclat vous reçoit en toute confidentialité pour étudier votre projet.</p>
+    <a class="btn btn-gold" href="#">Prendre rendez-vous <span>→</span></a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot">
+        <a class="logo" href="#"><span class="nm">Maison <em>d'Éclat</em></span></a>
+        <p>L'immobilier de prestige, pensé comme un art. Une sélection rare, un service d'exception.</p>
+      </div>
+      <div class="foot"><h5>Explorer</h5><ul><li><a href="#props">Propriétés</a></li><li><a href="#services">Services</a></li><li><a href="#about">À propos</a></li><li><a href="#">Actualités</a></li></ul></div>
+      <div class="foot"><h5>Services</h5><ul><li><a href="#">Vente de prestige</a></li><li><a href="#">Estimation</a></li><li><a href="#">Recherche internationale</a></li><li><a href="#">Conseil</a></li></ul></div>
+      <div class="foot"><h5>Contact</h5><ul><li><a href="#">Paris · Côte d'Azur</a></li><li><a href="#">+33 1 00 00 00 00</a></li><li><a href="#">contact@maison-declat.fr</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><div>© 2026 Maison d'Éclat — Immobilier de Prestige</div><div>Mentions légales · Confidentialité</div></div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+const REDUCED=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const grads=['linear-gradient(135deg,#5a4a30,#1a140c)','linear-gradient(135deg,#43505a,#12161b)','linear-gradient(135deg,#4d3b2a,#161009)'];
+const props=[
+ {tag:'À vendre',loc:'Cap-Ferrat · Côte d\'Azur',name:'Villa Belvédère',ch:'6 chambres',sdb:'5 SDB',m2:'480 m²',price:'12 500 000 €'},
+ {tag:'Exclusivité',loc:'Paris 16e · Trocadéro',name:'Hôtel particulier',ch:'8 pièces',sdb:'4 SDB',m2:'320 m²',price:'9 800 000 €'},
+ {tag:'À vendre',loc:'Megève · Mont Blanc',name:'Chalet des Cimes',ch:'7 chambres',sdb:'6 SDB',m2:'560 m²',price:'15 200 000 €'},
+];
+document.getElementById('props-grid').innerHTML=props.map((p,i)=>`
+ <div class="pcard" data-hover>
+   <div class="img" style="background:${grads[i]}"></div>
+   <span class="tag">${p.tag}</span>
+   <div class="body">
+     <div class="loc">${p.loc}</div>
+     <h3>${p.name}</h3>
+     <div class="specs"><span>${p.ch}</span><span>${p.sdb}</span><span>${p.m2}</span></div>
+     <div class="price">${p.price}</div>
+   </div>
+ </div>`).join('');
+
+function init(){
+  const hdr=document.getElementById('hdr');
+  window.addEventListener('scroll',()=>hdr.classList.toggle('solid',window.scrollY>60),{passive:true});
+  if(REDUCED){return;}
+  gsap.registerPlugin(ScrollTrigger);
+  const tl=gsap.timeline({defaults:{ease:'power3.out'}});
+  tl.from('.hero .eyebrow',{opacity:0,y:18,duration:.7})
+    .from('.hero h1',{opacity:0,y:34,duration:1},'-=.4')
+    .from('.hero .sub',{opacity:0,y:20,duration:.8},'-=.6')
+    .from('.hero .cta',{opacity:0,y:20,duration:.8},'-=.6')
+    .from('.scrollv',{opacity:0,duration:.8},'-=.4');
+  gsap.fromTo('#heroBg',{scale:1.14},{scale:1,duration:2.6,ease:'power2.out'});
+  gsap.to('#heroBg',{yPercent:12,ease:'none',scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:1}});
+  gsap.utils.toArray('.sec-title,.lead,.stat,.pcard,.svc,.split .img,.split p,.quote .q,.cta-band h2,.cta-band p').forEach(el=>{
+    gsap.from(el,{opacity:0,y:40,duration:.9,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 88%'}});
+  });
+  gsap.utils.toArray('.stat .n').forEach(el=>{const raw=el.textContent,num=parseInt(raw)||0,suf=raw.replace(/[0-9]/g,''),o={v:0};gsap.to(o,{v:num,duration:1.6,ease:'power1.out',scrollTrigger:{trigger:el,start:'top 92%'},onUpdate:()=>el.textContent=Math.round(o.v)+suf});});
+}
+if(document.readyState!=='loading')init();else document.addEventListener('DOMContentLoaded',init);
+</script>
+</body>
+</html>

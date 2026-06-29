@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lorny Conseils Management — Plateforme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#08152B; --navy:#0E2143; --blue:#1E3A8C; --blue2:#3566D6;
+  --orange:#ED8B1C; --orange2:#C9710E; --steel:#6B7A93;
+  --line:#E5E9F2; --paper:#F5F7FB; --white:#fff;
+  --disp:'Space Grotesk',sans-serif; --body:'Inter',sans-serif; --mono:'Space Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);color:var(--ink);background:var(--white);-webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+a{text-decoration:none;color:inherit}
+.mono{font-family:var(--mono)}
+.ring{width:11px;height:11px;border-radius:50%;display:inline-block;flex:0 0 auto;
+  background:conic-gradient(var(--blue2) 0 33%,var(--steel) 33% 66%,var(--orange) 66% 100%)}
+.btn{font-family:var(--body);font-weight:600;font-size:14px;border-radius:12px;padding:13px 20px;cursor:pointer;border:1px solid transparent;transition:.18s;display:inline-flex;align-items:center;gap:8px}
+.btn-primary{background:var(--orange);color:#2a1602}
+.btn-primary:hover{background:#ffa436}
+.btn-glass{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.22)}
+.btn-glass:hover{background:rgba(255,255,255,.16)}
+.btn-ghost{color:var(--ink);border-color:var(--line);background:#fff}
+.btn-ghost:hover{border-color:var(--steel)}
+
+/* header */
+header{position:fixed;top:0;left:0;right:0;z-index:50;transition:.3s}
+header .nav{display:flex;align-items:center;justify-content:space-between;height:78px}
+.brand{display:flex;align-items:center;gap:11px}
+.brand .chip{height:42px;width:42px;border-radius:11px;background:#fff;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.brand .chip img{height:34px;width:34px;object-fit:contain}
+.brand .bn{font-family:var(--disp);font-weight:700;font-size:15px;letter-spacing:.02em;line-height:1.05;color:#fff;transition:.3s}
+.brand .bn small{display:block;font-family:var(--mono);font-weight:400;font-size:10px;letter-spacing:.2em;color:var(--orange)}
+.menu{display:flex;gap:30px;font-size:14.5px;font-weight:500;color:rgba(255,255,255,.82);transition:.3s}
+.menu a:hover{color:#fff}
+.actions{display:flex;align-items:center;gap:12px}
+header.solid{background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+header.solid .bn{color:var(--ink)}
+header.solid .menu{color:#33415C}
+header.solid .menu a:hover{color:var(--blue)}
+header.solid .btn-glass{background:#fff;color:var(--ink);border-color:var(--line)}
+
+/* hero */
+.hero{position:relative;min-height:100vh;background:var(--ink);color:#fff;overflow:hidden;display:flex;align-items:center}
+.hero::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(900px 600px at 78% 18%, rgba(53,102,214,.30), transparent 62%),
+  radial-gradient(700px 500px at 12% 92%, rgba(237,139,28,.12), transparent 60%),
+  linear-gradient(160deg,#08152B 0%, #0E2143 60%, #13294F 100%)}
+.gridlines{position:absolute;inset:0;opacity:.5;
+  background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
+  background-size:64px 64px;mask-image:radial-gradient(900px 600px at 70% 30%,#000,transparent 75%)}
+.globe{position:absolute;right:-90px;top:50%;transform:translateY(-50%);width:680px;height:680px;opacity:.35;pointer-events:none}
+.hero-inner{position:relative;z-index:2;width:100%;padding:118px 0 60px}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:7px 15px 7px 11px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.78)}
+h1.head{font-family:var(--disp);font-weight:700;font-size:62px;line-height:1.02;letter-spacing:-.022em;margin:22px 0 0}
+h1.head em{font-style:normal;color:#fff}
+h1.head .hl{color:var(--orange)}
+.sub{font-size:18px;color:rgba(255,255,255,.74);max-width:34ch;margin:22px 0 30px;line-height:1.6}
+.cta-row{display:flex;gap:13px;flex-wrap:wrap}
+.cta-row .btn{padding:15px 24px;font-size:15px}
+.metaline{display:flex;gap:24px;margin-top:30px;flex-wrap:wrap}
+.metaline div{font-family:var(--mono);font-size:12px;color:rgba(255,255,255,.55);display:flex;align-items:center;gap:8px}
+.metaline i{width:6px;height:6px;border-radius:50%;background:var(--orange)}
+
+/* fiche (slider visual) */
+.fiche{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:22px;backdrop-filter:blur(6px);overflow:hidden}
+.fiche-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:22px 24px 16px}
+.fiche-top .pn{font-family:var(--disp);font-weight:600;font-size:21px;color:#fff}
+.fiche-top .loc{font-size:13px;color:rgba(255,255,255,.6);margin-top:4px;display:flex;align-items:center;gap:7px}
+.tag-open{font-family:var(--mono);font-size:10px;letter-spacing:.12em;background:rgba(237,139,28,.16);color:#ffbf73;border:1px solid rgba(237,139,28,.34);padding:5px 9px;border-radius:7px;white-space:nowrap;text-transform:uppercase}
+.surf{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(255,255,255,.10);border-bottom:1px solid rgba(255,255,255,.10)}
+.surf div{padding:16px 24px}
+.surf div+div{border-left:1px solid rgba(255,255,255,.10)}
+.surf .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.surf .val{font-family:var(--disp);font-weight:600;font-size:27px;color:#fff;margin-top:4px}
+.surf .val u{text-decoration:none;font-size:14px;color:rgba(255,255,255,.55);font-family:var(--mono)}
+.plan{padding:18px 24px 8px}
+.plan-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
+.plan-h .t{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.legend{display:flex;gap:11px}
+.legend span{display:flex;align-items:center;gap:5px;font-size:10px;color:rgba(255,255,255,.6);font-family:var(--mono)}
+.dot{width:9px;height:9px;border-radius:3px;display:inline-block}
+.grid-lots{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+.lotc{aspect-ratio:1;border-radius:5px;background:rgba(255,255,255,.14)}
+.fiche-foot{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-top:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.03)}
+.fiche-foot .price{font-family:var(--disp);font-weight:600;font-size:16px;color:#fff}
+.fiche-foot .price small{display:block;font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.5);letter-spacing:.1em;text-transform:uppercase;font-weight:400}
+.apport{font-family:var(--mono);font-size:12px;color:#ffbf73;background:rgba(237,139,28,.12);padding:6px 10px;border-radius:8px;border:1px solid rgba(237,139,28,.28)}
+
+/* slider controls */
+.slider-ctl{display:flex;align-items:center;gap:16px;margin-top:24px}
+.dots{display:flex;gap:9px}
+.dots button{width:30px;height:4px;border-radius:3px;border:none;background:rgba(255,255,255,.2);cursor:pointer;padding:0;position:relative;overflow:hidden}
+.dots button.active{background:rgba(255,255,255,.28)}
+.dots button .fill{position:absolute;inset:0;width:0;background:var(--orange)}
+.arrows{display:flex;gap:8px;margin-left:auto}
+.arrows button{width:42px;height:42px;border-radius:11px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);color:#fff;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:.18s}
+.arrows button:hover{background:rgba(255,255,255,.14)}
+
+/* marquee */
+.marquee{background:var(--ink);color:rgba(255,255,255,.55);border-top:1px solid rgba(255,255,255,.08);overflow:hidden;padding:16px 0}
+.marquee .track{display:flex;gap:42px;white-space:nowrap;width:max-content;font-family:var(--mono);font-size:13px;letter-spacing:.08em}
+.marquee .track span{display:flex;align-items:center;gap:42px}
+.marquee b{color:var(--orange);font-weight:400}
+
+/* sections */
+.section{padding:96px 0}
+.eb{display:flex;align-items:center;gap:9px;margin-bottom:14px;font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--steel)}
+.sec-head h2{font-family:var(--disp);font-weight:700;font-size:40px;letter-spacing:-.02em;line-height:1.05}
+
+/* stats */
+.stats{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stats .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;padding:56px 32px}
+.stat .n{font-family:var(--disp);font-weight:700;font-size:46px;letter-spacing:-.02em;color:var(--ink)}
+.stat .n b{color:var(--orange)}
+.stat .l{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--steel);margin-top:6px}
+
+/* programmes */
+.progs{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:42px}
+.pcard{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff;will-change:transform}
+.pcard .ph{height:160px;position:relative;background:var(--navy);overflow:hidden}
+.pcard .ph svg{position:absolute;inset:0;width:100%;height:100%;opacity:.5}
+.pcard .ph .badge{position:absolute;left:14px;top:14px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;background:rgba(255,255,255,.92);color:var(--navy);padding:5px 9px;border-radius:7px}
+.pcard .pb{padding:18px 20px 20px}
+.pcard h3{font-family:var(--disp);font-weight:600;font-size:19px}
+.pcard .pl{font-size:13px;color:var(--steel);margin:3px 0 14px;display:flex;align-items:center;gap:6px}
+.specrow{display:flex;gap:18px;border-top:1px solid var(--line);padding-top:13px}
+.specrow .k{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--steel)}
+.specrow .v{font-family:var(--disp);font-weight:600;font-size:15px;color:var(--ink);margin-top:2px}
+.pcard .pf{display:flex;align-items:center;justify-content:space-between;margin-top:16px}
+.pcard .from{font-size:13px;color:var(--steel)}
+.pcard .from b{font-family:var(--disp);color:var(--ink);font-size:15px}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:30px}
+.step{padding:36px 30px}
+.step+.step{border-left:1px solid var(--line)}
+.step .no{font-family:var(--mono);font-size:13px;color:var(--orange2)}
+.step h4{font-family:var(--disp);font-weight:600;font-size:21px;margin:16px 0 9px}
+.step p{font-size:14.5px;color:var(--steel)}
+
+/* cta */
+.band{background:var(--ink);color:#fff;border-radius:26px;padding:60px 56px;display:flex;align-items:center;justify-content:space-between;gap:30px;position:relative;overflow:hidden}
+.band::after{content:"";position:absolute;right:-90px;bottom:-150px;width:420px;height:420px;border-radius:50%;border:1px solid rgba(255,255,255,.14)}
+.band h3{font-family:var(--disp);font-weight:700;font-size:36px;letter-spacing:-.02em;max-width:18ch;line-height:1.08;position:relative}
+.band p{color:#B9C8E6;margin-top:10px;font-size:15px;max-width:42ch;position:relative}
+
+footer{border-top:1px solid var(--line);padding:46px 0 40px;margin-top:90px;color:var(--steel);font-size:13.5px}
+.foot{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.foot .chip{height:34px;width:34px;border-radius:9px;background:var(--paper);display:flex;align-items:center;justify-content:center;border:1px solid var(--line)}
+.foot .chip img{height:26px;width:26px}
+
+@media(max-width:900px){
+  .hero-grid,.stats .wrap,.progs,.steps{grid-template-columns:1fr}
+  h1.head{font-size:40px}.menu{display:none}.band{flex-direction:column;align-items:flex-start}.globe{display:none}
+}
+</style>
+</head>
+<body>
+
+<header id="hdr">
+  <div class="wrap nav">
+    <a class="brand" href="#"><span class="chip"><img src="/image/lorny.png" alt="LCM"></span><span class="bn">LORNY CONSEILS<small>MANAGEMENT · LCM</small></span></a>
+    <nav class="menu"><a href="#progs">Programmes</a><a href="#how">L'adhésion</a><a href="#">Le cabinet</a><a href="#">Contact</a></nav>
+    <div class="actions"><a class="btn btn-glass" href="#">Connexion</a><a class="btn btn-primary" href="#">Créer un compte</a></div>
+  </div>
+</header>
+
+<section class="hero" id="hero">
+  <div class="gridlines"></div>
+  <svg class="globe" id="globe" viewBox="0 0 200 200" fill="none" stroke="#5E86D8" stroke-width="0.5" aria-hidden="true">
+    <circle cx="100" cy="100" r="86"/><ellipse cx="100" cy="100" rx="26" ry="86"/><ellipse cx="100" cy="100" rx="54" ry="86"/>
+    <line x1="14" y1="100" x2="186" y2="100"/><ellipse cx="100" cy="100" rx="86" ry="30"/><ellipse cx="100" cy="100" rx="86" ry="60"/>
+  </svg>
+
+  <div class="wrap hero-inner">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow" id="eyebrow"><span class="ring"></span><span id="ey-txt">Cabinet de gestion immobilière — Abidjan</span></span>
+        <h1 class="head" id="title"></h1>
+        <p class="sub" id="sub"></p>
+        <div class="cta-row" id="cta">
+          <a class="btn btn-primary" href="#">Créer un compte →</a>
+          <a class="btn btn-glass" href="#progs">Explorer les programmes</a>
+        </div>
+        <div class="metaline">
+          <div><i></i> Comptes validés par le cabinet</div>
+          <div><i></i> Apport dès 35 %</div>
+          <div><i></i> Échéanciers sur mesure</div>
+        </div>
+
+        <div class="slider-ctl">
+          <div class="dots" id="dots"></div>
+          <div class="arrows"><button id="prev" aria-label="Précédent">‹</button><button id="next" aria-label="Suivant">›</button></div>
+        </div>
+      </div>
+
+      <div class="fiche" id="fiche">
+        <div class="fiche-top">
+          <div><div class="pn" id="f-name"></div><div class="loc"><span class="ring"></span><span id="f-loc"></span></div></div>
+          <span class="tag-open" id="f-tag"></span>
+        </div>
+        <div class="surf">
+          <div><div class="lbl">Surface utile</div><div class="val"><span id="f-u"></span> <u>m²</u></div></div>
+          <div><div class="lbl">Surface totale</div><div class="val"><span id="f-t"></span> <u>m²</u></div></div>
+        </div>
+        <div class="plan">
+          <div class="plan-h">
+            <span class="t" id="f-ilot"></span>
+            <span class="legend">
+              <span><span class="dot" style="background:rgba(255,255,255,.22)"></span>Libre</span>
+              <span><span class="dot" style="background:var(--orange)"></span>Réservé</span>
+              <span><span class="dot" style="background:var(--blue2)"></span>Acquis</span>
+            </span>
+          </div>
+          <div class="grid-lots" id="f-lots"></div>
+        </div>
+        <div class="fiche-foot">
+          <div class="price"><span id="f-price"></span><small>À partir de</small></div>
+          <span class="apport">Apport requis · 35 %</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee"><div class="track" id="mq"></div></div>
+
+<section class="stats">
+  <div class="wrap">
+    <div class="stat"><div class="n"><span data-count="14">0</span></div><div class="l">Programmes gérés</div></div>
+    <div class="stat"><div class="n"><span data-count="320">0</span><b>+</b></div><div class="l">Adhérents accompagnés</div></div>
+    <div class="stat"><div class="n"><span data-count="186000">0</span><b> m²</b></div><div class="l">Fonciers sous gestion</div></div>
+    <div class="stat"><div class="n"><span data-count="97">0</span><b>%</b></div><div class="l">Taux de recouvrement</div></div>
+  </div>
+</section>
+
+<section class="section" id="progs">
+  <div class="wrap">
+    <div class="eb" data-reveal><span class="ring"></span> Nos programmes</div>
+    <div class="sec-head" data-reveal><h2>Des biens choisis,<br>documentés au mètre carré.</h2></div>
+    <div class="progs" data-stagger id="pgrid"></div>
+  </div>
+</section>
+
+<section class="section" id="how" style="padding-top:0">
+  <div class="wrap">
+    <div class="eb" data-reveal><span class="ring"></span> L'adhésion en 3 étapes</div>
+    <div class="steps" data-stagger>
+      <div class="step"><div class="no">01</div><h4>Créez votre compte</h4><p>Inscription en ligne en quelques minutes, pièces à l'appui.</p></div>
+      <div class="step"><div class="no">02</div><h4>Validation par le cabinet</h4><p>Un conseiller vérifie votre dossier et active votre espace.</p></div>
+      <div class="step"><div class="no">03</div><h4>Choisissez votre lot &amp; adhérez</h4><p>Apport de 35 %, puis échéancier mensuel, trimestriel ou annuel.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="wrap"><div class="band" data-reveal>
+    <div><h3>Prêt à bâtir votre patrimoine ?</h3><p>Créez votre compte aujourd'hui. Un conseiller Lorny vous accompagne dès la validation.</p></div>
+    <a class="btn btn-primary" href="#" style="padding:16px 26px;font-size:16px">Créer un compte →</a>
+  </div></div>
+</section>
+
+<footer><div class="wrap foot">
+  <a class="brand" href="#"><span class="chip"><img src="/image/lorny.png" alt=""></span><span class="bn" style="color:var(--ink);font-size:13px">LORNY CONSEILS<small>MANAGEMENT · LCM</small></span></a>
+  <div>© 2026 Lorny Conseils Management — Abidjan, Côte d'Ivoire</div>
+  <div class="mono" style="font-size:12px;color:var(--steel)">RCCM CI-ABJ · NCC</div>
+</div></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const slides=[
+ {ey:'Cabinet de gestion immobilière — Abidjan', t:['Devenez propriétaire,','<span class="hl">étape par étape.</span>'],
+  sub:"Lorny Conseils Management accompagne votre adhésion à des programmes résidentiels — de l'apport initial au titre de propriété.",
+  name:'Résidence Les Palmiers', loc:'Cocody Angré · Abidjan', tag:'Adhésions ouvertes', u:'85', t2:'110', ilot:'Plan des lots — îlot A', price:'12 000 000 FCFA'},
+ {ey:'Foncier viabilisé & titré — Bingerville', t:['Investissez dans la terre,','<span class="hl">en toute sécurité.</span>'],
+  sub:"Des terrains titrés, bornés et viabilisés, gérés et suivis par le cabinet jusqu'à la remise de votre titre.",
+  name:'Cité Horizon', loc:'Bingerville · Abidjan', tag:'24 lots disponibles', u:'120', t2:'160', ilot:'Plan des lots — îlot C', price:'28 000 000 FCFA'},
+ {ey:'Accompagnement & gestion — LCM', t:['Un cabinet qui gère','<span class="hl">pour vous.</span>'],
+  sub:"Échéanciers sur mesure, suivi des travaux en temps réel et attestations à chaque étape de votre adhésion.",
+  name:'Villas du Lagon', loc:'Marcory Biétry · Abidjan', tag:'Premium', u:'180', t2:'220', ilot:'Plan des lots — îlot V', price:'75 000 000 FCFA'},
+];
+
+const $=s=>document.querySelector(s);
+const dotsWrap=$('#dots');
+slides.forEach((_,i)=>{const b=document.createElement('button');b.innerHTML='<span class="fill"></span>';b.onclick=()=>go(i,true);dotsWrap.appendChild(b);});
+const dots=[...dotsWrap.children];
+
+function lotsHTML(){let h='';for(let i=0;i<30;i++){let r=Math.random()*100,bg='rgba(255,255,255,.14)';if(r<16)bg='var(--blue2)';else if(r<42)bg='var(--orange)';h+=`<div class="lotc" style="background:${bg}"></div>`;}return h;}
+
+let cur=-1, timer=null, fillTween=null;
+function paint(i){
+  const s=slides[i];
+  $('#ey-txt').textContent=s.ey;
+  $('#title').innerHTML=s.t.join('<br>');
+  $('#sub').textContent=s.sub;
+  $('#f-name').textContent=s.name; $('#f-loc').textContent=s.loc; $('#f-tag').textContent=s.tag;
+  $('#f-u').textContent=s.u; $('#f-t').textContent=s.t2; $('#f-ilot').textContent=s.ilot;
+  $('#f-price').textContent=s.price; $('#f-lots').innerHTML=lotsHTML();
+  dots.forEach((d,k)=>d.classList.toggle('active',k===i));
+}
+function animIn(){
+  if(REDUCED) return;
+  gsap.from('#title',{opacity:0,y:26,duration:.7,ease:'power3.out'});
+  gsap.from('#sub',{opacity:0,y:20,duration:.7,delay:.08,ease:'power3.out'});
+  gsap.fromTo('#fiche',{opacity:0,y:30,scale:.985},{opacity:1,y:0,scale:1,duration:.8,ease:'power3.out'});
+  gsap.from('#f-lots > *',{opacity:0,scale:.4,duration:.5,stagger:.012,delay:.15,ease:'back.out(2)'});
+}
+function go(i,manual){
+  if(i===cur) return; cur=i; paint(i); animIn(); restart();
+}
+function restart(){
+  dots.forEach(d=>{const f=d.querySelector('.fill');f.style.width='0'});
+  if(timer) timer.kill(); if(fillTween) fillTween.kill();
+  if(REDUCED) return;
+  const fill=dots[cur].querySelector('.fill');
+  fillTween=gsap.fromTo(fill,{width:'0%'},{width:'100%',duration:6,ease:'none'});
+  timer=gsap.delayedCall(6,()=>go((cur+1)%slides.length));
+}
+$('#next').onclick=()=>go((cur+1)%slides.length,true);
+$('#prev').onclick=()=>go((cur-1+slides.length)%slides.length,true);
+const heroEl=$('#hero');
+heroEl.addEventListener('mouseenter',()=>{if(timer)timer.pause();if(fillTween)fillTween.pause();});
+heroEl.addEventListener('mouseleave',()=>{if(timer)timer.resume();if(fillTween)fillTween.resume();});
+
+go(0,false);
+if(REDUCED){ gsap.set('#title,#sub,#fiche',{opacity:1,y:0}); }
+else {
+  gsap.from('#eyebrow',{opacity:0,y:18,duration:.6,ease:'power3.out'});
+  gsap.from('#cta',{opacity:0,y:18,duration:.6,delay:.2,ease:'power3.out'});
+  gsap.from('.metaline div',{opacity:0,y:14,duration:.5,stagger:.1,delay:.35});
+}
+
+const mqItems='Cocody · Bingerville · Marcory · Yopougon · Songon · Grand-Bassam · Anyama · Abobo · ';
+$('#mq').innerHTML=`<span><b>◆</b> ${mqItems.replaceAll(' · ',' <b>·</b> ')}</span>`.repeat(2);
+if(!REDUCED) gsap.to('#mq',{xPercent:-50,duration:26,ease:'none',repeat:-1});
+
+const pdata=[
+ {n:'Villas du Lagon',l:'Marcory Biétry',u:'180',t:'220',d:'8 lots',from:'75 M FCFA',tag:'Résidentiel'},
+ {n:'Cité Horizon',l:'Bingerville',u:'120',t:'160',d:'24 lots',from:'28 M FCFA',tag:'Foncier'},
+ {n:'Les Palmiers',l:'Cocody Angré',u:'85',t:'110',d:'12 lots',from:'12 M FCFA',tag:'Résidentiel'},
+];
+const gsvg='<svg viewBox="0 0 200 160" fill="none" stroke="#7E97C9" stroke-width="0.7"><circle cx="150" cy="44" r="46"/><ellipse cx="150" cy="44" rx="17" ry="46"/><ellipse cx="150" cy="44" rx="46" ry="19"/><line x1="104" y1="44" x2="196" y2="44"/><path d="M0 130 L55 100 L115 128 L200 84" stroke="#ED8B1C" stroke-width="1.1"/></svg>';
+$('#pgrid').innerHTML=pdata.map(p=>`
+ <div class="pcard" data-hover>
+   <div class="ph">${gsvg}<span class="badge">${p.tag}</span></div>
+   <div class="pb"><h3>${p.n}</h3><div class="pl"><span class="ring"></span>${p.l} · Abidjan</div>
+     <div class="specrow"><div><div class="k">Surface utile</div><div class="v">${p.u} m²</div></div><div><div class="k">Surface totale</div><div class="v">${p.t} m²</div></div><div><div class="k">Lots</div><div class="v">${p.d}</div></div></div>
+     <div class="pf"><div class="from">À partir de <b>${p.from}</b></div><a class="btn btn-ghost" style="padding:9px 14px;font-size:13px" href="#">Adhérer</a></div>
+   </div>
+ </div>`).join('');
+
+function initScroll(){
+  if(REDUCED){gsap.set('[data-reveal],[data-stagger] > *',{opacity:1,y:0});return;}
+  gsap.registerPlugin(ScrollTrigger);
+  gsap.utils.toArray('[data-reveal]').forEach(el=>gsap.from(el,{opacity:0,y:40,duration:.8,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 86%'}}));
+  gsap.utils.toArray('[data-stagger]').forEach(g=>gsap.from(g.children,{opacity:0,y:34,duration:.6,ease:'power2.out',stagger:.12,scrollTrigger:{trigger:g,start:'top 82%'}}));
+  gsap.utils.toArray('[data-count]').forEach(el=>{const target=+el.dataset.count,o={v:0};gsap.to(o,{v:target,duration:1.8,ease:'power1.out',scrollTrigger:{trigger:el,start:'top 92%'},onUpdate:()=>el.textContent=Math.round(o.v).toLocaleString('fr-FR')});});
+  gsap.to('#globe',{rotation:14,scale:1.06,duration:1,ease:'none',scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:1}});
+  gsap.to('#globe',{rotation:'+=360',duration:120,ease:'none',repeat:-1});
+  document.querySelectorAll('[data-hover]').forEach(c=>{
+    c.addEventListener('mouseenter',()=>gsap.to(c,{y:-7,duration:.3,ease:'power2.out'}));
+    c.addEventListener('mouseleave',()=>gsap.to(c,{y:0,duration:.3,ease:'power2.out'}));
+  });
+  const hdr=$('#hdr');
+  ScrollTrigger.create({start:'top -120',onUpdate:self=>hdr.classList.toggle('solid',self.scroll()>120)});
+}
+if(document.readyState!=='loading') initScroll(); else document.addEventListener('DOMContentLoaded',initScroll);
+</script>
+</body>
+</html>

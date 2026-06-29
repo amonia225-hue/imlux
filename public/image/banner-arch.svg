@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 620" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#13294f"/>
+      <stop offset="0.5" stop-color="#0e1f3e"/>
+      <stop offset="1" stop-color="#0a1426"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="0.74" cy="0.28" r="0.5">
+      <stop offset="0" stop-color="#ED8B1C" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#ED8B1C" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0a1426" stop-opacity="0"/>
+      <stop offset="1" stop-color="#0a1426" stop-opacity="0.55"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="620" fill="url(#sky)"/>
+  <rect width="1600" height="620" fill="url(#halo)"/>
+
+  <!-- faint blueprint grid -->
+  <g stroke="#5b78b0" stroke-width="1" opacity="0.10">
+    <path d="M0 80 H1600 M0 180 H1600 M0 280 H1600 M0 380 H1600 M0 480 H1600 M0 580 H1600"/>
+    <path d="M120 0 V620 M280 0 V620 M440 0 V620 M600 0 V620 M760 0 V620 M920 0 V620 M1080 0 V620 M1240 0 V620 M1400 0 V620 M1560 0 V620"/>
+  </g>
+
+  <!-- contour / topographic arcs -->
+  <g fill="none" stroke="#7fa0dd" stroke-width="1.4" opacity="0.12">
+    <path d="M-60 470 Q 360 360 760 440 T 1660 380"/>
+    <path d="M-60 520 Q 380 420 800 490 T 1660 430"/>
+    <path d="M-60 570 Q 400 480 840 540 T 1660 490"/>
+  </g>
+
+  <!-- skyline silhouette -->
+  <g opacity="0.9">
+    <!-- back towers -->
+    <g fill="#0c1c3a">
+      <rect x="980" y="250" width="120" height="370"/>
+      <rect x="1110" y="200" width="150" height="420"/>
+      <rect x="1270" y="290" width="110" height="330"/>
+      <rect x="1388" y="230" width="140" height="390"/>
+    </g>
+    <!-- window line-art on towers -->
+    <g stroke="#6f93d6" stroke-width="1.2" opacity="0.22">
+      <path d="M1000 280 H1080 M1000 320 H1080 M1000 360 H1080 M1000 400 H1080 M1000 440 H1080 M1000 480 H1080 M1000 520 H1080 M1000 560 H1080"/>
+      <path d="M1130 235 H1240 M1130 280 H1240 M1130 325 H1240 M1130 370 H1240 M1130 415 H1240 M1130 460 H1240 M1130 505 H1240 M1130 550 H1240"/>
+      <path d="M1290 320 H1360 M1290 360 H1360 M1290 400 H1360 M1290 440 H1360 M1290 480 H1360 M1290 520 H1360 M1290 560 H1360"/>
+      <path d="M1408 262 H1508 M1408 305 H1508 M1408 348 H1508 M1408 391 H1508 M1408 434 H1508 M1408 477 H1508 M1408 520 H1508 M1408 563 H1508"/>
+    </g>
+    <!-- vertical mullions -->
+    <g stroke="#6f93d6" stroke-width="1" opacity="0.16">
+      <path d="M1040 255 V620 M1175 205 V620 M1205 205 V620 M1325 295 V620 M1458 235 V620"/>
+    </g>
+    <!-- orange accent: a lit penthouse + crane line -->
+    <g>
+      <rect x="1130" y="235" width="44" height="42" fill="#ED8B1C" opacity="0.55"/>
+      <rect x="1408" y="262" width="40" height="40" fill="#ED8B1C" opacity="0.35"/>
+    </g>
+    <!-- crane -->
+    <g stroke="#ED8B1C" stroke-width="1.6" opacity="0.45" fill="none">
+      <path d="M1240 160 V120"/>
+      <path d="M1170 120 H1470"/>
+      <path d="M1240 120 L1280 160 M1240 120 L1200 160"/>
+    </g>
+  </g>
+
+  <rect width="1600" height="620" fill="url(#fade)"/>
+</svg>
