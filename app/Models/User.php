@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password', 'is_admin'])]
+#[Fillable(['name', 'email', 'password', 'is_admin', 'is_super_admin'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -28,6 +28,31 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_admin' => 'boolean',
+            'is_super_admin' => 'boolean',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        // Protection du compte super administrateur (propriétaire) :
+        // il ne peut être ni supprimé, ni rétrogradé / désactivé.
+        static::deleting(function (User $user) {
+            if ($user->is_super_admin) {
+                throw new \RuntimeException('Compte super administrateur protégé : suppression interdite.');
+            }
+        });
+
+        static::updating(function (User $user) {
+            if ($user->getOriginal('is_super_admin')) {
+                if (! $user->is_super_admin || ! $user->is_admin) {
+                    throw new \RuntimeException('Compte super administrateur protégé : ses droits ne peuvent pas être retirés.');
+                }
+            }
+        });
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return (bool) $this->is_super_admin;
     }
 }
