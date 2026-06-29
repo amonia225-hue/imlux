@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bien;
+use App\Services\ClientNotifier;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class BienController extends Controller
 {
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request, ClientNotifier $notifier): RedirectResponse
     {
         $data = $this->validateBien($request);
         $data['cloture_incluse'] = $request->boolean('cloture_incluse');
@@ -17,7 +18,21 @@ class BienController extends Controller
             $data['photo'] = $request->file('photo')->store('biens', 'public');
         }
 
-        Bien::create($data);
+        $bien = Bien::create($data);
+
+        // Notifie TOUS les clients qu'un nouveau bien est disponible.
+        try {
+            if ($bien->status === 'disponible') {
+                $notifier->notifyAll(
+                    'bien',
+                    '🏠 Nouveau bien disponible',
+                    $bien->name . " vient d'être ajouté chez IMLUX. Découvrez-le et réservez le vôtre !",
+                    ['bien_id' => (string) $bien->id]
+                );
+            }
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('Notif nouveau bien échouée : ' . $e->getMessage());
+        }
 
         return redirect(route('admin.dashboard') . '#biens')->with('success', 'Bien publié sur le site.');
     }

@@ -66,6 +66,20 @@ class ApiService {
     return data as Map<String, dynamic>;
   }
 
+  /// Inscription : crée un compte (en attente de validation du cabinet).
+  /// Renvoie le message serveur à afficher au client.
+  static Future<String> register(Map<String, dynamic> fields) async {
+    final res = await http.post(
+      _uri('/register'),
+      headers: _headers,
+      body: jsonEncode(fields),
+    );
+    final data = await _decode(res);
+    return (data is Map && data['message'] != null)
+        ? data['message'].toString()
+        : 'Compte créé. En attente de validation.';
+  }
+
   static Future<Souscripteur> me() async {
     final res = await http.get(_uri('/me'), headers: _headers);
     return Souscripteur.fromJson(await _decode(res));

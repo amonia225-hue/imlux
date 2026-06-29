@@ -6,6 +6,7 @@ import '../services/api_service.dart';
 import '../services/auth_service.dart';
 import '../theme/app_theme.dart';
 import '../widgets/ui.dart';
+import 'signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -37,6 +38,8 @@ class _LoginScreenState extends State<LoginScreen> {
     });
     try {
       await context.read<AuthService>().login(_email.text, _password.text);
+      // Connecté : on retire l'écran de connexion empilé (AuthGate affiche l'accueil).
+      if (mounted) Navigator.of(context).popUntil((route) => route.isFirst);
     } on ApiException catch (e) {
       setState(() => _error = e.message);
     } catch (_) {
@@ -138,6 +141,16 @@ class _LoginScreenState extends State<LoginScreen> {
                             label: 'Se connecter',
                             loading: _loading,
                             onPressed: _submit,
+                          ),
+                          const SizedBox(height: 6),
+                          TextButton(
+                            onPressed: () => Navigator.of(context).push(
+                              MaterialPageRoute(builder: (_) => const SignupScreen()),
+                            ),
+                            child: const Text(
+                              'Pas encore de compte ? Créer un compte',
+                              style: TextStyle(color: AppColors.gold, fontWeight: FontWeight.w600),
+                            ),
                           ),
                         ],
                       ),

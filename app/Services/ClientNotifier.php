@@ -32,4 +32,20 @@ class ClientNotifier
 
         return $notification;
     }
+
+    /**
+     * Notifie TOUS les souscripteurs (ex. publication d'un nouveau bien).
+     */
+    public function notifyAll(string $type, string $title, string $body, array $data = []): void
+    {
+        Souscripteur::query()->chunkById(200, function ($souscripteurs) use ($type, $title, $body, $data) {
+            foreach ($souscripteurs as $souscripteur) {
+                try {
+                    $this->notify($souscripteur, $type, $title, $body, $data);
+                } catch (\Throwable $e) {
+                    \Illuminate\Support\Facades\Log::warning('notifyAll échec souscripteur ' . $souscripteur->id . ' : ' . $e->getMessage());
+                }
+            }
+        });
+    }
 }

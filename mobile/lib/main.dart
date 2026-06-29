@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'config.dart';
 import 'screens/home_screen.dart';
-import 'screens/login_screen.dart';
+import 'screens/onboarding_screen.dart';
 import 'screens/splash_screen.dart';
 import 'services/auth_service.dart';
 import 'services/notification_service.dart';
@@ -46,7 +46,7 @@ class AuthGate extends StatelessWidget {
     return switch (auth.status) {
       AuthStatus.unknown => const SplashScreen(),
       AuthStatus.authenticated => const HomeScreen(),
-      AuthStatus.unauthenticated => const LoginScreen(),
+      AuthStatus.unauthenticated => const OnboardingScreen(),
     };
   }
 }

@@ -58,6 +58,44 @@ class AuthController extends Controller
     }
 
     /**
+     * Inscription d'un client depuis l'application.
+     * Crée un souscripteur EN ATTENTE de validation (app_access = false) :
+     * un conseiller IMLUX active l'accès, puis le client peut se connecter.
+     */
+    public function register(Request $request): JsonResponse
+    {
+        $data = $request->validate([
+            'first_name' => ['required', 'string', 'max:120'],
+            'last_name' => ['required', 'string', 'max:120'],
+            'email' => ['required', 'email', 'max:190', 'unique:souscripteurs,email'],
+            'phone' => ['required', 'string', 'max:30'],
+            'date_naissance' => ['required', 'date'],
+            'address' => ['nullable', 'string', 'max:300'],
+            'password' => ['required', 'string', 'min:6'],
+        ], [], [
+            'first_name' => 'prénom', 'last_name' => 'nom', 'date_naissance' => 'date de naissance',
+        ]);
+
+        Souscripteur::create([
+            'uid' => Souscripteur::generateUid(),
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'email' => $data['email'],
+            'phone' => $data['phone'],
+            'date_naissance' => $data['date_naissance'],
+            'address' => $data['address'] ?? null,
+            'password' => Hash::make($data['password']),
+            'app_access' => false,   // activé après validation du cabinet
+            'statut' => 'en_attente',
+        ]);
+
+        return response()->json([
+            'pending' => true,
+            'message' => "Votre compte a bien été créé. Un conseiller IMLUX va l'activer très vite — vous recevrez une confirmation pour vous connecter.",
+        ], 201);
+    }
+
+    /**
      * Profil du souscripteur connecté.
      */
     public function me(Request $request): JsonResponse

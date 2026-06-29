@@ -11,6 +11,11 @@ Route::post('/login', [AuthController::class, 'login'])
     ->middleware('throttle:10,1')
     ->name('api.login');
 
+// Inscription depuis l'app (compte créé en attente de validation du cabinet)
+Route::post('/register', [AuthController::class, 'register'])
+    ->middleware('throttle:6,1')
+    ->name('api.register');
+
 // ======== AUTHENTIFIÉ (souscripteur via jeton Sanctum) ========
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me'])->name('api.me');
