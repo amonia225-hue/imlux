@@ -1,0 +1,52 @@
+name: Build APK IMLUX
+
+# Compile l'APK Android de l'app IMLUX (dossier mobile/).
+# - Lancement manuel : onglet "Actions" -> "Build APK IMLUX" -> "Run workflow"
+# - Ou en poussant un tag vXxx (ex: v1.0.0) -> crée aussi une Release avec l'APK
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Flutter version
+        run: flutter --version
+
+      - name: Dependencies
+        working-directory: mobile
+        run: flutter pub get
+
+      - name: Build APK (release)
+        working-directory: mobile
+        run: flutter build apk --release --dart-define=API_BASE_URL=https://imlux.lornyconseils.com/api
+
+      - name: Upload APK (artifact téléchargeable)
+        uses: actions/upload-artifact@v4
+        with:
+          name: imlux-apk
+          path: mobile/build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
+
+      - name: Release (uniquement sur tag vXxx)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: mobile/build/app/outputs/flutter-apk/app-release.apk
