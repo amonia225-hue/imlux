@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "467091670043",
+    "project_id": "imlux-lornyconseils",
+    "storage_bucket": "imlux-lornyconseils.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:467091670043:android:a76e97ff011407fac324be",
+        "android_client_info": {
+          "package_name": "ci.imlux.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-_G3q0V7MAEW6uiNpHHdyrWVV9aa_riI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
