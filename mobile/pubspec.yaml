@@ -34,15 +34,16 @@ dev_dependencies:
   flutter_lints: ^6.0.0
   flutter_launcher_icons: ^0.14.4
 
-# Icône de lancement de l'app (générée depuis le logo IMLUX)
+# Icône de lancement de l'app : logo Lorny sur le bleu du dashboard (#1E40AF)
 flutter_launcher_icons:
   android: true
   ios: false
-  image_path: "assets/logo.jpeg"
-  adaptive_icon_background: "#0E1A14"
-  adaptive_icon_foreground: "assets/logo.jpeg"
+  image_path: "assets/lorny.png"
+  adaptive_icon_background: "#1E40AF"
+  adaptive_icon_foreground: "assets/lorny.png"
 
 flutter:
   uses-material-design: true
   assets:
     - assets/logo.jpeg
+    - assets/lorny.png
