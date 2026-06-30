@@ -3,10 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>PROJET IM'LUX — Suivi de {{ $souscripteur->fullName() }}</title>
+    <title>Lorny Conseils Management — Suivi de {{ $souscripteur->fullName() }}</title>
+    <meta name="robots" content="noindex,nofollow">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="icon" type="image/jpeg" href="{{ asset('image/logo.jpeg') }}">
+    <link rel="icon" type="image/png" href="{{ asset('image/lorny.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -185,8 +186,8 @@
     <div class="page">
         <div class="header">
             <a href="{{ route('consultation.index') }}" style="display:flex;align-items:center;gap:.7rem;text-decoration:none">
-                <img src="{{ asset('image/logo.jpeg') }}" alt="IM'LUX" style="width:46px;height:46px;border-radius:12px;object-fit:cover;background:#F4F6FB;padding:3px">
-                <span class="brand" style="font-family:'Cormorant Garamond',serif">PROJET IM'LUX</span>
+                <img src="{{ asset('image/lorny.png') }}" alt="Lorny Conseils Management" style="width:46px;height:46px;border-radius:12px;object-fit:contain;background:#fff;padding:3px">
+                <span class="brand" style="font-family:'Cormorant Garamond',serif">Lorny Conseils Management</span>
             </a>
             <a href="{{ route('consultation.index') }}" class="back-btn">&#8592; Nouvelle recherche</a>
         </div>

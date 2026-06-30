@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Lorny Conseils Management — Suivi d'adhésion</title>
-    <link rel="icon" type="image/jpeg" href="{{ asset('image/logo.jpeg') }}">
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="icon" type="image/png" href="{{ asset('image/lorny.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -22,7 +23,7 @@
             box-shadow:0 24px 60px rgba(16,40,116,.12),0 2px 8px rgba(0,0,0,.04);text-align:center}
         .logo-plate{width:118px;height:118px;margin:0 auto;padding:8px;background:#fff;border:1px solid var(--border);border-radius:22px;
             box-shadow:0 10px 26px rgba(30,64,175,.16)}
-        .logo-plate img{width:100%;height:100%;object-fit:cover;border-radius:15px;display:block}
+        .logo-plate img{width:100%;height:100%;object-fit:contain;border-radius:15px;display:block}
         .brand h1{font-family:'Cormorant Garamond',serif;font-size:2.1rem;font-weight:700;margin-top:1.2rem;
             background:linear-gradient(120deg,#16329B,#1E40AF 45%,#ED8B1C);
             -webkit-background-clip:text;-webkit-text-fill-color:transparent}
@@ -54,9 +55,9 @@
 </head>
 <body>
     <div class="container">
-        <div class="logo-plate"><img src="{{ asset('image/logo.jpeg') }}" alt="PROJET IM'LUX"></div>
+        <div class="logo-plate"><img src="{{ asset('image/lorny.png') }}" alt="Lorny Conseils Management"></div>
         <div class="brand">
-            <h1>PROJET IM'LUX</h1>
+            <h1>Lorny Conseils Management</h1>
             <p>Consultez l'état de votre adhésion immobilière en temps réel</p>
         </div>
 
@@ -99,7 +100,7 @@
         </div>
 
         <div class="footer">
-            <a href="{{ route('login') }}">Accès administrateur</a>
+            <a href="{{ route('home') }}">← Retour au site</a>
         </div>
     </div>
 </body>
