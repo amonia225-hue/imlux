@@ -12,6 +12,7 @@ use App\Http\Controllers\PdfController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // ======== SITE PUBLIC ========
@@ -76,6 +77,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::post('/versements', [AdminController::class, 'storeVersement'])->name('versements.store');
     Route::post('/versements/{versement}/recu', [AdminController::class, 'uploadRecu'])->name('versements.recu');
     Route::post('/versements/{versement}/delete', [AdminController::class, 'destroyVersement'])->name('versements.destroy');
+
+    // Gestion des comptes administrateurs (réservé au super admin)
+    Route::get('/utilisateurs', [UserController::class, 'index'])->name('users.index');
+    Route::post('/utilisateurs', [UserController::class, 'store'])->name('users.store');
+    Route::post('/utilisateurs/{user}/delete', [UserController::class, 'destroy'])->name('users.destroy');
 
     // Messages de contact (site public)
     Route::get('/messages', [ContactController::class, 'index'])->name('messages.index');

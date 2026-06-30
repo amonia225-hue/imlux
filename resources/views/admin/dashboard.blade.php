@@ -294,6 +294,9 @@
                     <a class="nav-item" data-tab-target="audit" href="#audit">🛡️ Journal d'audit</a>
                     @php $unreadMsg = \App\Models\ContactMessage::unread()->count(); @endphp
                     <a class="nav-item" href="{{ route('messages.index') }}">📨 Messages @if($unreadMsg)<span style="background:var(--danger);color:#fff;border-radius:999px;padding:1px 7px;font-size:.7rem;margin-left:4px">{{ $unreadMsg }}</span>@endif</a>
+                    @if(auth()->user()?->isSuperAdmin())
+                        <a class="nav-item" href="{{ route('users.index') }}">👤 Utilisateurs</a>
+                    @endif
                     <a class="nav-item" data-tab-target="parametres" href="#parametres">⚙️ Paramètres</a>
                 </nav>
             </aside>
