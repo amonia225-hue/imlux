@@ -23,9 +23,20 @@ class PublicController extends Controller
         return view('public.home', compact('programmes', 'biens'));
     }
 
-    public function biens(): View
+    public function biens(\Illuminate\Http\Request $request): View
     {
-        $biens = Bien::orderByRaw("FIELD(status,'disponible','reserve','vendu')")->orderBy('ordre')->latest()->get();
+        $biens = Bien::query()
+            ->when($request->filled('q'), function ($query) use ($request) {
+                $term = '%'.$request->string('q').'%';
+                $query->where(fn ($w) => $w->where('name', 'like', $term)
+                    ->orWhere('type', 'like', $term)
+                    ->orWhere('description', 'like', $term));
+            })
+            ->when($request->filled('type'), fn ($query) => $query->where('type', $request->string('type')))
+            ->when($request->filled('budget') && is_numeric($request->input('budget')),
+                fn ($query) => $query->where('price', '<=', (float) $request->input('budget')))
+            ->orderByRaw("FIELD(status,'disponible','reserve','vendu')")
+            ->orderBy('ordre')->latest()->get();
 
         return view('public.biens', compact('biens'));
     }

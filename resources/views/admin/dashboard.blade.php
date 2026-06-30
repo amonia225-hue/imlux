@@ -292,6 +292,8 @@
                     <a class="nav-item" data-tab-target="chantiers" href="#chantiers">🏗️ Avancement travaux</a>
                     <a class="nav-item" data-tab-target="bilan" href="#bilan">📈 Bilan Financier</a>
                     <a class="nav-item" data-tab-target="audit" href="#audit">🛡️ Journal d'audit</a>
+                    @php $unreadMsg = \App\Models\ContactMessage::unread()->count(); @endphp
+                    <a class="nav-item" href="{{ route('messages.index') }}">📨 Messages @if($unreadMsg)<span style="background:var(--danger);color:#fff;border-radius:999px;padding:1px 7px;font-size:.7rem;margin-left:4px">{{ $unreadMsg }}</span>@endif</a>
                     <a class="nav-item" data-tab-target="parametres" href="#parametres">⚙️ Paramètres</a>
                 </nav>
             </aside>

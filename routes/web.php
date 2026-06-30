@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BienController;
 use App\Http\Controllers\ChantierController;
 use App\Http\Controllers\ConsultationController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\IlotController;
 use App\Http\Controllers\PdfController;
@@ -21,6 +22,8 @@ Route::get('/programmes', [PublicController::class, 'programmes'])->name('progra
 Route::get('/adhesion', [PublicController::class, 'adhesion'])->name('adhesion');
 Route::get('/faq', [PublicController::class, 'faq'])->name('faq');
 Route::get('/contact', [PublicController::class, 'contact'])->name('contact');
+Route::post('/contact', [ContactController::class, 'store'])
+    ->middleware('throttle:6,1')->name('contact.send');
 Route::get('/inscription', [RegisterController::class, 'create'])->name('register.create');
 Route::get('/application', [DownloadController::class, 'page'])->name('application');
 Route::get('/telecharger-app', [DownloadController::class, 'apk'])->name('app.download');
@@ -73,6 +76,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::post('/versements', [AdminController::class, 'storeVersement'])->name('versements.store');
     Route::post('/versements/{versement}/recu', [AdminController::class, 'uploadRecu'])->name('versements.recu');
     Route::post('/versements/{versement}/delete', [AdminController::class, 'destroyVersement'])->name('versements.destroy');
+
+    // Messages de contact (site public)
+    Route::get('/messages', [ContactController::class, 'index'])->name('messages.index');
+    Route::post('/messages/{message}/read', [ContactController::class, 'markRead'])->name('messages.read');
+    Route::post('/messages/{message}/delete', [ContactController::class, 'destroy'])->name('messages.destroy');
 
     // Paramètres (en-têtes documents)
     Route::post('/parametres', [SettingsController::class, 'update'])->name('settings.update');

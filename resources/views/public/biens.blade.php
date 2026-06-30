@@ -1,80 +1,105 @@
 @extends('public.layout')
-@section('title', 'Nos offres disponibles — Lorny Conseils Management')
+@section('title', 'Nos offres — Lorny Conseils Management')
+@section('meta_description', "Découvrez les biens disponibles chez Lorny Conseils Management à Abidjan : villas et duplex, prix, surface, apport requis et option clôture. Paiement échelonné.")
 
 @section('styles')
-.bgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
-.bcard{background:#13213c;border:1px solid var(--line);overflow:hidden;display:flex;flex-direction:column;position:relative}
-.bcard .imgwrap{height:230px;position:relative;overflow:hidden;flex:0 0 auto}
-.bcard .img{position:absolute;inset:0;background:url('{{ asset('image/lorny-hero.jpg') }}') center/cover,linear-gradient(135deg,#1c3a6e,#0c1730);transition:transform .8s ease}
-.bcard:hover .img{transform:scale(1.06)}
-.bcard .imgwrap::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,20,38,.1) 30%,rgba(11,20,38,.9));z-index:1}
-.bcard .tag{position:absolute;top:16px;left:16px;z-index:2;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:6px 11px;border:1px solid;background:rgba(11,20,38,.35)}
-.bcard .tag.disponible{color:var(--orange);border-color:var(--orange)}
-.bcard .tag.reserve{color:var(--orange-soft);border-color:var(--orange-soft)}
-.bcard .tag.vendu{color:var(--muted);border-color:var(--muted)}
-.bcard .ttl{position:absolute;left:22px;right:22px;bottom:18px;z-index:2}
-.bcard .ttl .ty{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--orange-soft)}
-.bcard .ttl h3{font-family:var(--serif);font-weight:500;font-size:23px;line-height:1.15;color:var(--light);margin-top:5px}
-.bcard .body{padding:22px;display:flex;flex-direction:column;gap:16px;flex:1}
-.bcard .price{font-family:var(--serif);font-weight:700;font-size:30px;color:var(--orange)}
-.bcard .price small{display:block;font-family:var(--mono);font-weight:400;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:4px}
-.brow{display:flex;justify-content:space-between;gap:14px;padding:14px 0;border-top:1px solid var(--line)}
-.brow .k{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.brow .v{font-family:var(--sans);font-weight:500;font-size:14px;color:var(--light)}
-.clo{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--light2)}
-.clo .dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
-.clo.inc .dot{background:#46b07c}.clo.opt .dot{background:var(--orange)}
-.clo .opt-amt{font-family:var(--mono);font-size:12px;color:var(--orange-soft)}
-.bcard .cta{margin-top:auto}
-@media(max-width:960px){.bgrid{grid-template-columns:1fr}}
+.filters{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:40px}
+.filters form{display:flex;gap:10px;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-radius:5px;padding:8px}
+.filters .f{display:flex;flex-direction:column;padding:6px 16px;border-right:1px solid var(--line)}
+.filters .f:last-of-type{border-right:none}
+.filters .f label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);font-weight:600;margin-bottom:3px}
+.filters .f input,.filters .f select{border:none;outline:none;font:inherit;font-size:14.5px;font-weight:500;color:var(--ink);background:transparent;min-width:130px}
+.filters button{background:var(--ink);color:#fff;border:none;border-radius:3px;padding:0 22px;font:inherit;font-weight:600;font-size:14px;cursor:pointer;transition:.2s}
+.filters button:hover{background:var(--orange)}
+.filters .reset{align-self:center;font-size:13px;color:var(--muted);border-bottom:1px solid var(--line)}
+.filters .reset:hover{color:var(--orange2)}
+.count-line{font-size:14px;color:var(--muted);margin-bottom:26px}
+.count-line b{color:var(--navy);font-weight:600}
+.empty{grid-column:1/-1;text-align:center;padding:70px 20px;background:#fff;border-radius:6px;border:1px solid var(--line)}
+.empty h3{font-family:var(--serif);font-size:26px;color:var(--navy)}
+.empty p{color:var(--muted);margin-top:8px}
 @endsection
 
 @section('content')
-<section class="page-banner">
-  <div class="bg"></div><div class="ov"></div>
-  <div class="wrap inner">
+<section class="page-head">
+  <div class="wrap">
     <div class="crumb">Accueil — Nos offres</div>
-    <h1>Nos offres <em>disponibles</em>.</h1>
+    <h1>Biens <em>disponibles</em></h1>
     <p>Des villas et duplex sélectionnés, présentés avec leur surface, leur prix, l'apport initial requis et l'option clôture.</p>
   </div>
 </section>
 
 <section class="section">
   <div class="wrap">
-    <div class="bgrid">
+    <div class="filters">
+      <form method="GET" action="{{ route('biens') }}">
+        <div class="f"><label>Recherche</label><input name="q" value="{{ request('q') }}" placeholder="Nom, type…"></div>
+        <div class="f"><label>Type</label>
+          <select name="type">
+            <option value="">Tous</option>
+            @foreach(['Villa','Duplex','Appartement','Terrain'] as $t)
+              <option value="{{ $t }}" @selected(request('type')===$t)>{{ $t }}</option>
+            @endforeach
+          </select>
+        </div>
+        <div class="f"><label>Budget max</label>
+          <select name="budget">
+            <option value="">Indifférent</option>
+            @foreach(['50000000'=>'50 M','80000000'=>'80 M','150000000'=>'150 M','300000000'=>'300 M +'] as $v=>$lbl)
+              <option value="{{ $v }}" @selected(request('budget')==$v)>{{ $lbl }} FCFA</option>
+            @endforeach
+          </select>
+        </div>
+        <button type="submit">Filtrer</button>
+      </form>
+      @if(request('q')||request('type')||request('budget'))
+        <a class="reset" href="{{ route('biens') }}">Réinitialiser</a>
+      @endif
+    </div>
+
+    <div class="count-line"><b>{{ $biens->count() }}</b> bien{{ $biens->count()>1?'s':'' }} {{ (request('q')||request('type')||request('budget')) ? 'correspondant à votre recherche' : 'au catalogue' }}.</div>
+
+    <div class="props">
       @forelse($biens as $b)
-        <div class="bcard">
-          <div class="imgwrap">
-            <div class="img" @if($b->photo) style="background:url('{{ asset('storage/'.$b->photo) }}') center/cover" @endif></div>
+        <div class="pcard" data-reveal>
+          <div class="img">
+            <div class="bg" @if($b->photo) style="background-image:url('{{ asset('storage/'.$b->photo) }}')" @endif></div>
             <span class="tag {{ $b->status }}">{{ $b->statusLabel() }}</span>
-            <div class="ttl">@if($b->type)<div class="ty">{{ $b->type }}</div>@endif<h3>{{ $b->name }}</h3></div>
           </div>
-          <div class="body">
-            <div class="price">{{ number_format((float)$b->price,0,',',' ') }} FCFA<small>Prix du bien</small></div>
-            <div>
-              <div class="brow"><span class="k">Surface</span><span class="v">{{ $b->surface ? number_format($b->surface,0,',',' ').' m²' : '—' }}</span></div>
-              <div class="brow"><span class="k">Apport initial ({{ $b->apport_pct }} %)</span><span class="v">{{ number_format($b->apportInitial(),0,',',' ') }} FCFA</span></div>
+          <div class="pbody">
+            @if($b->type)<div class="pty">{{ $b->type }}</div>@endif
+            <h3>{{ $b->name }}</h3>
+            <div class="specs">
+              <span>{{ $b->surface ? number_format($b->surface,0,',',' ').' m²' : '—' }}</span>
+              <span>Apport {{ $b->apport_pct }} %</span>
             </div>
-            @if($b->cloture_incluse)
-              <div class="clo inc"><span class="dot"></span> {{ $b->clotureLabel() }}</div>
-            @else
-              <div class="clo opt"><span class="dot"></span> {{ $b->clotureLabel() }} · <span class="opt-amt">clôture +{{ number_format((float)$b->cloture_prix,0,',',' ') }} F</span></div>
-            @endif
-            <div class="cta"><a class="btn btn-orange" href="{{ route('register.create') }}" style="width:100%;justify-content:center">Adhérer à ce bien <span>→</span></a></div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);margin-top:14px">
+              <span style="width:8px;height:8px;border-radius:50%;background:{{ $b->cloture_incluse ? '#3f9d6b' : 'var(--orange)' }}"></span>
+              {{ $b->clotureLabel() }}@unless($b->cloture_incluse) · <span style="color:var(--orange2);font-weight:600">clôture +{{ number_format((float)$b->cloture_prix/1000000,1,',',' ') }} M</span>@endunless
+            </div>
+            <div class="pf">
+              <div class="price">{{ number_format((float)$b->price,0,',',' ') }}<small>FCFA · apport {{ number_format($b->apportInitial()/1000000,1,',',' ') }} M</small></div>
+            </div>
+            <a class="btn btn-ink" href="{{ route('register.create') }}" style="width:100%;margin-top:18px">Adhérer à ce bien <span>→</span></a>
           </div>
         </div>
       @empty
-        <div class="bcard"><div class="body"><h3 style="font-family:var(--serif);color:var(--light)">Biens à venir</h3><p style="color:var(--light2)">De nouveaux biens seront publiés très prochainement.</p></div></div>
+        <div class="empty">
+          <h3>Aucun bien ne correspond</h3>
+          <p>Modifiez vos critères ou consultez l'ensemble du catalogue.</p>
+          <a class="btn btn-outline" href="{{ route('biens') }}" style="margin-top:18px">Voir tous les biens</a>
+        </div>
       @endforelse
     </div>
   </div>
 </section>
 
-<section class="section cta-band light" style="padding-top:96px">
-  <div class="wrap">
-    <div class="sec-eyebrow c"><span class="eyebrow">Une question ?</span></div>
+<section class="cta-img">
+  <div class="bg" style="background-image:url('{{ asset('image/slider1.jpeg') }}')"></div>
+  <div class="ov"></div>
+  <div class="inner" data-reveal>
     <h2>Un bien vous <em>intéresse</em> ?</h2>
-    <p>Créez votre compte : un conseiller vous présente le bien, l'option clôture et l'échéancier adapté.</p>
+    <p>Créez votre compte : un conseiller vous présente le bien, l'option clôture et l'échéancier adapté à votre capacité.</p>
     <a class="btn btn-orange" href="{{ route('register.create') }}">Créer un compte <span>→</span></a>
   </div>
 </section>
