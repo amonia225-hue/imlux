@@ -10,21 +10,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #f6f4ee;
+            --bg: #EEF1F7;
             --surface: #ffffff;
-            --surface2: #f3f1e9;
-            --border: #e6e0d2;
-            --text: #1d2b22;
-            --muted: #6b7770;
-            --accent: #a8801e;
-            --accent2: #9c7b2e;
+            --surface2: #F4F6FB;
+            --border: #E2E7F0;
+            --text: #0d1a33;
+            --muted: #5b647a;
+            --accent: #ED8B1C;
+            --accent2: #C9710E;
             --success: #1f8a5a;
             --success-bg: rgba(31,138,90,.12);
-            --warning: #b9831f;
-            --warning-bg: rgba(185,131,31,.12);
+            --warning: #C9710E;
+            --warning-bg: rgba(201,113,14,.12);
             --danger: #c2412f;
             --danger-bg: rgba(194,65,47,.1);
-            --info: #1f6b4c;
+            --info: #1E3A8C;
             --glass: rgba(255,255,255,.7);
             --radius: 16px;
             --radius-sm: 12px;
@@ -46,7 +46,7 @@
         }
         .brand {
             font-size: 1.4rem; font-weight: 800;
-            background: linear-gradient(120deg, #9c7b2e, #c8a24a 35%, #1f6b4c);
+            background: linear-gradient(120deg, #16329B, #1E40AF 45%, #ED8B1C);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             text-decoration: none;
         }
@@ -66,12 +66,12 @@
         }
         .profile-card::before {
             content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
-            background: linear-gradient(135deg, #e8ce7e, #c8a24a 55%, #9c7b2e);
+            background: linear-gradient(135deg, #1E40AF, #16329B 55%, #ED8B1C);
         }
         .profile-header { display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; margin-top: .5rem; }
         .avatar {
             width: 64px; height: 64px; border-radius: 18px;
-            background: linear-gradient(135deg, #c8a24a, #9c7b2e);
+            background: linear-gradient(135deg, #1E40AF, #16329B);
             display: flex; align-items: center; justify-content: center;
             font-size: 1.6rem; font-weight: 800; color: #fff; flex-shrink: 0;
         }
@@ -80,7 +80,7 @@
         .uid-tag {
             display: inline-block; margin-top: .35rem;
             padding: .25rem .65rem; border-radius: 8px;
-            background: rgba(200,162,74,.12); border: 1px solid rgba(200,162,74,.25);
+            background: rgba(237,139,28,.12); border: 1px solid rgba(237,139,28,.25);
             font-size: .78rem; font-weight: 700; color: var(--accent);
             letter-spacing: .03em;
         }
@@ -131,10 +131,10 @@
         .progress-label { display: flex; justify-content: space-between; font-size: .82rem; margin-bottom: .5rem; }
         .progress-label span:first-child { color: var(--muted); font-weight: 600; }
         .progress-label span:last-child { font-weight: 700; color: var(--accent); }
-        .progress-bar { height: 10px; background: rgba(200,162,74,.1); border-radius: 10px; overflow: hidden; }
+        .progress-bar { height: 10px; background: rgba(30,64,175,.1); border-radius: 10px; overflow: hidden; }
         .progress-fill {
             height: 100%; border-radius: 10px;
-            background: linear-gradient(90deg, #9c7b2e, #c8a24a, #e8ce7e);
+            background: linear-gradient(90deg, #16329B, #1E40AF, #ED8B1C);
             transition: width .6s ease;
         }
 
@@ -153,11 +153,11 @@
             padding: .7rem .75rem;
             border-bottom: 1px solid rgba(148,163,184,.08);
         }
-        tbody tr:hover { background: rgba(200,162,74,.04); }
+        tbody tr:hover { background: rgba(30,64,175,.04); }
         .method-badge {
             display: inline-block; padding: .15rem .5rem; border-radius: 6px;
             font-size: .72rem; font-weight: 600;
-            background: rgba(200,162,74,.1); color: var(--accent);
+            background: rgba(237,139,28,.1); color: var(--accent);
         }
 
         .no-data {
@@ -185,7 +185,7 @@
     <div class="page">
         <div class="header">
             <a href="{{ route('consultation.index') }}" style="display:flex;align-items:center;gap:.7rem;text-decoration:none">
-                <img src="{{ asset('image/logo.jpeg') }}" alt="IM'LUX" style="width:46px;height:46px;border-radius:12px;object-fit:cover;background:#fbf7ee;padding:3px">
+                <img src="{{ asset('image/logo.jpeg') }}" alt="IM'LUX" style="width:46px;height:46px;border-radius:12px;object-fit:cover;background:#F4F6FB;padding:3px">
                 <span class="brand" style="font-family:'Cormorant Garamond',serif">PROJET IM'LUX</span>
             </a>
             <a href="{{ route('consultation.index') }}" class="back-btn">&#8592; Nouvelle recherche</a>
@@ -345,7 +345,7 @@
                     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:.5rem; margin-bottom:1rem;">
                         <div class="versements-title" style="margin-bottom:0">Historique des versements ({{ $souscription->versements->count() }})</div>
                         @if($souscription->versements->count() > 0)
-                            <a href="{{ URL::signedRoute('pdf.attestation', $souscription) }}" target="_blank" style="padding:.4rem .8rem; border-radius:8px; background:rgba(200,162,74,.12); border:1px solid rgba(200,162,74,.25); color:var(--accent); font-size:.78rem; font-weight:700; text-decoration:none; transition:all .2s;">
+                            <a href="{{ URL::signedRoute('pdf.attestation', $souscription) }}" target="_blank" style="padding:.4rem .8rem; border-radius:8px; background:rgba(237,139,28,.12); border:1px solid rgba(237,139,28,.25); color:var(--accent); font-size:.78rem; font-weight:700; text-decoration:none; transition:all .2s;">
                                 &#128196; Attestation PDF
                             </a>
                         @endif

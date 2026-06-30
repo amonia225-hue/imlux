@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/// Charte « Or & Émeraude » du logo PROJET IM'LUX.
+/// Charte « Bleu & Orange » LORNY CONSEILS MANAGEMENT.
+/// (Les noms de champs `gold`/`emerald` sont conservés pour compatibilité,
+///  mais portent désormais les couleurs Lorny : orange et bleu.)
 class AppColors {
-  // Or
-  static const gold = Color(0xFFC8A24A);
-  static const goldLight = Color(0xFFE8CE7E);
-  static const goldDark = Color(0xFF9C7B2E);
+  // Accent ORANGE (ex-« or »)
+  static const gold = Color(0xFFED8B1C);
+  static const goldLight = Color(0xFFF6A93B);
+  static const goldDark = Color(0xFFC9710E);
 
-  // Émeraude
-  static const emerald = Color(0xFF2E8B5F);
-  static const emeraldDeep = Color(0xFF1F6B4C);
-  static const emeraldDark = Color(0xFF123D2C);
+  // BLEU royal / navy (ex-« émeraude »)
+  static const emerald = Color(0xFF1E40AF);
+  static const emeraldDeep = Color(0xFF16329B);
+  static const emeraldDark = Color(0xFF0B1426);
 
-  // Fonds & surfaces (dark luxe)
-  static const bg = Color(0xFF0E1A14);
-  static const surface = Color(0xFF15241B);
-  static const surface2 = Color(0xFF1D3327);
-  static const border = Color(0x33C8A24A); // or translucide
+  // Fonds & surfaces (dark navy)
+  static const bg = Color(0xFF0B1426);
+  static const surface = Color(0xFF13213F);
+  static const surface2 = Color(0xFF1B2C57);
+  static const border = Color(0x331E40AF); // bleu translucide
 
   // Texte
-  static const ivory = Color(0xFFF3ECDB);
-  static const sage = Color(0xFFA9B7A6);
+  static const ivory = Color(0xFFEDF1F8);
+  static const sage = Color(0xFF9AA8C4);
 
   // États
   static const success = Color(0xFF46B07C);

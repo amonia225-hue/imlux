@@ -158,7 +158,7 @@
         }
         .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(237,139,28,.45); }
         .btn-sm { padding: .45rem .7rem; font-size: .82rem; border-radius: 10px; }
-        .btn-success { background: linear-gradient(135deg, #2e8b5f, #46b07c); color: #07140d; }
+        .btn-success { background: linear-gradient(135deg, #1E40AF, #3B5BDB); color: #fff; }
         .btn-outline {
             background: transparent; border: 1px solid var(--border); color: var(--muted); font-weight: 600;
         }
@@ -179,7 +179,7 @@
         .badge-green { background: var(--success-bg); color: var(--success); border-color: rgba(52,211,153,.2); }
         .badge-yellow { background: var(--warning-bg); color: var(--warning); border-color: rgba(251,191,36,.2); }
         .badge-red { background: var(--danger-bg); color: var(--danger); border-color: rgba(248,113,113,.2); }
-        .badge-blue { background: var(--info-bg); color: var(--info); border-color: rgba(46,139,95,.2); }
+        .badge-blue { background: var(--info-bg); color: var(--info); border-color: rgba(30,58,140,.2); }
         .badge-purple { background: rgba(237,139,28,.1); color: var(--accent); border-color: rgba(237,139,28,.2); }
 
         .money { font-weight: 700; color: var(--success); }
@@ -203,7 +203,7 @@
         .progress { width: 100%; height: 8px; border-radius: 999px; background: var(--surface2); overflow: hidden; }
         .progress-bar { height: 100%; border-radius: inherit; transition: width .35s ease; }
         .progress-bar.green { background: linear-gradient(90deg, #10b981, #34d399); }
-        .progress-bar.purple { background: linear-gradient(90deg, #ED8B1C, #2e8b5f); }
+        .progress-bar.purple { background: linear-gradient(90deg, #1E40AF, #ED8B1C); }
         .progress-bar.yellow { background: linear-gradient(90deg, #ED8B1C, #F4B25E); }
         .progress-label { font-size: .75rem; color: var(--muted); margin-top: .2rem; }
 
@@ -1830,7 +1830,7 @@
             function methodColors(m) {
                 var c = {
                     especes: {bg:'var(--success-bg)', color:'var(--success)', border:'rgba(52,211,153,.2)'},
-                    cheque: {bg:'var(--info-bg)', color:'var(--info)', border:'rgba(46,139,95,.2)'},
+                    cheque: {bg:'var(--info-bg)', color:'var(--info)', border:'rgba(30,58,140,.2)'},
                     virement: {bg:'rgba(237,139,28,.1)', color:'var(--accent)', border:'rgba(237,139,28,.2)'},
                     mobile_money: {bg:'var(--warning-bg)', color:'var(--warning)', border:'rgba(251,191,36,.2)'}
                 };
