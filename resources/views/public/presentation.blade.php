@@ -1,5 +1,5 @@
 @extends('public.layout')
-@section('title', 'Le cabinet — Lorny Conseils Management')
+@section('title', "Le Bureau d'études LCM — Lorny Conseils Management")
 @section('meta_description', "Lorny Conseils Management, bureau d'études de gestion immobilière à Abidjan : conseil, adhésion, paiement échelonné et suivi de chantier. Méthode, transparence, proximité.")
 
 @php
@@ -42,8 +42,8 @@
 @section('content')
 <section class="page-head">
   <div class="wrap">
-    <div class="crumb">Accueil — Le cabinet</div>
-    <h1>Le cabinet <em>Lorny</em></h1>
+    <div class="crumb">Accueil — Le Bureau d'études LCM</div>
+    <h1>Le Bureau d'études <em>LCM</em></h1>
     <p>Gestion immobilière, accompagnement humain et méthode rigoureuse — pour faire de l'accès à la propriété un parcours clair et serein.</p>
   </div>
 </section>

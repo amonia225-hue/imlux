@@ -32,7 +32,7 @@
       <div class="eyebrow">Application Android</div>
       <h2 class="sec-title" style="margin:14px 0 24px">Votre espace adhérent, <em>partout.</em></h2>
       <div class="appfeat"><div class="ic">🔑</div><div><div class="t">Vos biens &amp; échéances</div><div class="d">Montant payé, reste à payer, échéancier et statut de chaque adhésion.</div></div></div>
-      <div class="appfeat"><div class="ic">📷</div><div><div class="t">Avancement des travaux en photos</div><div class="d">Suivez le chantier niveau par niveau, avec les vraies photos publiées par le cabinet.</div></div></div>
+      <div class="appfeat"><div class="ic">📷</div><div><div class="t">Avancement des travaux en photos</div><div class="d">Suivez le chantier niveau par niveau, avec les vraies photos publiées par le Bureau d'études LCM.</div></div></div>
       <div class="appfeat"><div class="ic">🧾</div><div><div class="t">Factures &amp; reçus</div><div class="d">Téléchargez vos factures et accédez aux reçus de paiement déposés par l'administration.</div></div></div>
       <div class="appfeat"><div class="ic">🔔</div><div><div class="t">Notifications en temps réel</div><div class="d">Versement enregistré, étape de chantier franchie, nouveau bien disponible : vous êtes prévenu.</div></div></div>
     </div>

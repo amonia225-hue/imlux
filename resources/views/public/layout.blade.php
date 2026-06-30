@@ -218,7 +218,7 @@ footer{background:var(--ink2);padding:76px 0 36px;color:#fff}
       <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">Accueil</a>
       <a href="{{ route('biens') }}" class="{{ request()->routeIs('biens') ? 'active' : '' }}">Nos offres</a>
       <a href="{{ route('adhesion') }}" class="{{ request()->routeIs('adhesion') ? 'active' : '' }}">L'adhésion</a>
-      <a href="{{ route('presentation') }}" class="{{ request()->routeIs('presentation') ? 'active' : '' }}">Le cabinet</a>
+      <a href="{{ route('presentation') }}" class="{{ request()->routeIs('presentation') ? 'active' : '' }}">Le Bureau d'études LCM</a>
       <a href="{{ route('faq') }}" class="{{ request()->routeIs('faq') ? 'active' : '' }}">FAQ</a>
       <a href="{{ route('application') }}" class="{{ request()->routeIs('application') ? 'active' : '' }}">Application</a>
       <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a>
@@ -242,7 +242,7 @@ footer{background:var(--ink2);padding:76px 0 36px;color:#fff}
     <a class="dl" href="{{ route('home') }}">Accueil</a>
     <a class="dl" href="{{ route('biens') }}">Nos offres</a>
     <a class="dl" href="{{ route('adhesion') }}">L'adhésion</a>
-    <a class="dl" href="{{ route('presentation') }}">Le cabinet</a>
+    <a class="dl" href="{{ route('presentation') }}">Le Bureau d'études LCM</a>
     <a class="dl" href="{{ route('faq') }}">FAQ</a>
     <a class="dl" href="{{ route('application') }}">Application</a>
     <a class="dl" href="{{ route('contact') }}">Contact</a>
@@ -265,7 +265,7 @@ footer{background:var(--ink2);padding:76px 0 36px;color:#fff}
       <div class="foot"><h5>Explorer</h5><ul>
         <li><a class="fl" href="{{ route('biens') }}">Nos offres</a></li>
         <li><a class="fl" href="{{ route('adhesion') }}">L'adhésion</a></li>
-        <li><a class="fl" href="{{ route('presentation') }}">Le cabinet</a></li>
+        <li><a class="fl" href="{{ route('presentation') }}">Le Bureau d'études LCM</a></li>
         <li><a class="fl" href="{{ route('faq') }}">FAQ</a></li>
       </ul></div>
       <div class="foot"><h5>Adhésion</h5><ul>

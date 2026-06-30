@@ -29,7 +29,7 @@
   <div class="wrap">
     <div class="crumb">Accueil — L'adhésion</div>
     <h1>Devenir <em>adhérent</em></h1>
-    <p>De l'apport initial au titre de propriété, votre adhésion suit un parcours clair et encadré par le cabinet.</p>
+    <p>De l'apport initial au titre de propriété, votre adhésion suit un parcours clair et encadré par le Bureau d'études LCM.</p>
   </div>
 </section>
 

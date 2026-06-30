@@ -1,6 +1,6 @@
 @extends('public.layout')
 @section('title', 'Contact — Lorny Conseils Management')
-@section('meta_description', "Contactez Lorny Conseils Management à Abidjan : un conseiller du cabinet étudie votre projet immobilier en toute confidentialité. WhatsApp, email, formulaire.")
+@section('meta_description', "Contactez Lorny Conseils Management à Abidjan : un conseiller du Bureau d'études LCM étudie votre projet immobilier en toute confidentialité. WhatsApp, email, formulaire.")
 
 @section('styles')
 .cgrid{display:grid;grid-template-columns:.9fr 1.1fr;gap:64px;align-items:start}
@@ -33,14 +33,14 @@
   <div class="wrap">
     <div class="crumb">Accueil — Contact</div>
     <h1>Nous <em>contacter</em></h1>
-    <p>Un conseiller du cabinet vous reçoit en toute confidentialité pour étudier votre projet immobilier.</p>
+    <p>Un conseiller du Bureau d'études LCM vous reçoit en toute confidentialité pour étudier votre projet immobilier.</p>
   </div>
 </section>
 
 <section class="section">
   <div class="wrap cgrid">
     <div class="cinfo" data-reveal>
-      <div class="eyebrow">Le cabinet</div>
+      <div class="eyebrow">Le Bureau d'études LCM</div>
       <h2 class="sec-title" style="margin:14px 0 30px">Restons en <em>contact.</em></h2>
       <div class="row"><div class="ic">📍</div><div><div class="k">Adresse</div><div class="v">Cocody, Abidjan<small>Côte d'Ivoire</small></div></div></div>
       <div class="row"><div class="ic">📱</div><div><div class="k">Téléphone / WhatsApp</div><div class="v"><a href="https://wa.me/2250545870606" target="_blank" rel="noopener" style="color:inherit">+225 05 45 87 06 06</a><small>Disponible sur WhatsApp · Lun – Ven, 8h – 18h</small></div></div></div>
@@ -52,7 +52,7 @@
         <div class="ok">
           <div class="ic">✓</div>
           <h4>Message envoyé</h4>
-          <p>Merci. Un conseiller du cabinet vous recontacte dans les meilleurs délais.</p>
+          <p>Merci. Un conseiller du Bureau d'études LCM vous recontacte dans les meilleurs délais.</p>
         </div>
       @else
         <h3>Écrivez-nous</h3>

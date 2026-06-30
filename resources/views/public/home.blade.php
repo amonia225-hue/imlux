@@ -53,7 +53,7 @@
 .sim-apport-head .pct{font-size:13.5px;font-weight:700;color:var(--orange2)}
 input[type=range]{width:100%;margin-top:16px;accent-color:var(--ink);cursor:pointer}
 .sim-range-lbl{display:flex;justify-content:space-between;font-size:11px;color:var(--muted2);margin-top:4px}
-.sim-months{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-top:14px}
+.sim-months{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}
 .sim-months button{font-family:var(--sans);font-size:15px;font-weight:700;padding:13px 0;border-radius:5px;cursor:pointer;transition:.2s;background:#fff;color:var(--navy);border:1px solid var(--line)}
 .sim-months button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 .sim-hint{font-size:12px;color:var(--muted2);margin-top:11px}
@@ -147,7 +147,7 @@ input[type=range]{width:100%;margin-top:16px;accent-color:var(--ink);cursor:poin
 <section class="section tight dark trust">
   <div class="wrap">
     <div data-reveal>
-      <div class="eyebrow light" style="margin-bottom:14px">Cabinet Lorny</div>
+      <div class="eyebrow light" style="margin-bottom:14px">Bureau d'études LCM</div>
       <p class="lead">Bureau d'études de gestion immobilière à Abidjan, nous conjuguons rigueur et proximité pour valoriser votre patrimoine.</p>
     </div>
     <div class="tstat" data-reveal><div class="n" data-count="{{ max(3,$programmes->count()) }}">{{ max(3,$programmes->count()) }}</div><div class="l">Programmes accompagnés</div></div>
@@ -255,7 +255,7 @@ input[type=range]{width:100%;margin-top:16px;accent-color:var(--ink);cursor:poin
       <h2 class="sec-title" style="margin-top:14px">Le paiement échelonné,<br><em>en toute transparence.</em></h2>
       <p class="sec-sub">Devenez propriétaire selon un plan de versements adapté à votre capacité. Chaque échéance, chaque document et l'état d'avancement de votre chantier vous suivent en temps réel — sur mobile, tablette ou ordinateur.</p>
       <div style="margin-top:26px">
-        <div class="fin-point"><div class="k">01</div><div><div class="t">Une durée au choix</div><div class="b">Réglez sur 12, 24, 36, 48 mois ou plus, selon votre capacité.</div></div></div>
+        <div class="fin-point"><div class="k">01</div><div><div class="t">Une durée au choix</div><div class="b">Réglez sur 12, 24 ou 36 mois (de 1 à 3 ans), selon votre capacité.</div></div></div>
         <div class="fin-point"><div class="k">02</div><div><div class="t">Suivi en temps réel</div><div class="b">Échéances, montants réglés et documents accessibles partout depuis votre espace.</div></div></div>
         <div class="fin-point"><div class="k">03</div><div><div class="t">Avancement du chantier</div><div class="b">Suivez votre logement niveau par niveau, en photos, avec une notification à chaque étape.</div></div></div>
       </div>
@@ -312,7 +312,7 @@ input[type=range]{width:100%;margin-top:16px;accent-color:var(--ink);cursor:poin
 (function(){
   const BIENS = @json($sim);
   if(!BIENS.length) return;
-  const monthsOpts=[12,24,36,48,60];
+  const monthsOpts=[12,24,36];
   let iBien=0, apport=Math.max(35, BIENS[0].apport||35), months=24;
   const fmt=n=>Math.round(n).toLocaleString('fr-FR')+' FCFA';
   const fmtM=n=>{const m=n/1000000; return (m>=10?Math.round(m):m.toFixed(1)).toString().replace('.',',')+' M FCFA';};
