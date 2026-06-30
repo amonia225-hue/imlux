@@ -46,9 +46,17 @@
         .help-text strong{color:var(--emerald)}
         .sep{display:flex;align-items:center;gap:.8rem;margin:1.6rem 0 .4rem;color:var(--muted);font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
         .sep::before,.sep::after{content:'';flex:1;height:1px;background:var(--border)}
-        .two{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+        .two{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;align-items:stretch}
         .two .full{grid-column:1/-1}
+        .two input{width:100%;height:48px;padding:.7rem 1rem;border:1px solid var(--border);border-radius:14px;
+            background:var(--surface2);color:var(--text);font:inherit;font-size:.95rem;line-height:1.2;
+            transition:border-color .2s,box-shadow .2s}
+        .two input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(237,139,28,.18);background:#fff}
+        .two input::placeholder{color:#9aa49b}
+        .two input[type=date]{appearance:none;-webkit-appearance:none}
+        .two input[type=date]::-webkit-calendar-picker-indicator{cursor:pointer;opacity:.55}
         .field-block{margin-top:.6rem}
+        @media(max-width:430px){.two{grid-template-columns:1fr}}
         .footer{margin-top:2rem;font-size:.82rem;color:var(--muted)}
         .footer a{color:var(--gold-dark);text-decoration:none;font-weight:700}
     </style>
