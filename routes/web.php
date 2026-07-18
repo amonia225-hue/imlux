@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\Admin\CollectePromoteurController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BienController;
 use App\Http\Controllers\ChantierController;
 use App\Http\Controllers\ConsultationController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DepotPromoteurController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\IlotController;
 use App\Http\Controllers\PdfController;
@@ -98,6 +100,28 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::post('/chantiers/etapes/{etape}', [ChantierController::class, 'updateEtape'])->name('chantiers.etapes.update');
     Route::post('/chantiers/etapes/{etape}/delete', [ChantierController::class, 'destroyEtape'])->name('chantiers.etapes.destroy');
     Route::post('/chantiers/photos/{photo}/delete', [ChantierController::class, 'destroyPhoto'])->name('chantiers.photos.destroy');
+
+    // Collecte de biens auprès des promoteurs.
+    // Noms préfixés `admin.` comme admin.dashboard : ce groupe n'applique pas
+    // de préfixe de nom, chaque route porte le sien.
+    Route::prefix('/collecte-promoteurs')->name('admin.collecte.')->group(function () {
+        Route::get('/', [CollectePromoteurController::class, 'index'])->name('index');
+        Route::post('/invitations', [CollectePromoteurController::class, 'storeInvitation'])->name('invitations.store');
+        Route::post('/invitations/{invitation}/revoquer', [CollectePromoteurController::class, 'revoquer'])->name('invitations.revoquer');
+        Route::get('/depots/{soumission}', [CollectePromoteurController::class, 'show'])->name('show');
+        Route::post('/depots/{soumission}/traiter', [CollectePromoteurController::class, 'traiter'])->name('traiter');
+        Route::get('/fichiers/{fichier}', [CollectePromoteurController::class, 'fichier'])->name('fichier');
+    });
+});
+
+// ======== Dépôt promoteur (public, ouvert par jeton) ========
+// Pas d'authentification : le promoteur n'a pas de compte, c'est le jeton qui
+// l'identifie. Throttle serré, ces routes sont exposées à Internet.
+Route::middleware('throttle:30,1')->prefix('promoteurs/depot')->name('promoteur.')->group(function () {
+    Route::get('/{token}', [DepotPromoteurController::class, 'show'])->name('depot');
+    Route::post('/{token}', [DepotPromoteurController::class, 'enregistrer'])->name('depot.enregistrer');
+    Route::post('/{token}/fichiers', [DepotPromoteurController::class, 'televerser'])->name('depot.fichiers');
+    Route::post('/{token}/fichiers/{fichier}/supprimer', [DepotPromoteurController::class, 'supprimerFichier'])->name('depot.fichiers.supprimer');
 });
 
 // ======== PDF (admin connecté OU URL signée — protection IDOR) ========
