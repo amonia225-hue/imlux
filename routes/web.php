@@ -111,6 +111,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         Route::get('/depots/{soumission}', [CollectePromoteurController::class, 'show'])->name('show');
         Route::post('/depots/{soumission}/traiter', [CollectePromoteurController::class, 'traiter'])->name('traiter');
         Route::get('/fichiers/{fichier}', [CollectePromoteurController::class, 'fichier'])->name('fichier');
+        Route::get('/depots/{soumission}/archive', [CollectePromoteurController::class, 'archive'])->name('archive');
     });
 });
 

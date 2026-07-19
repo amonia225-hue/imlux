@@ -3,13 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AuditLog;
 use App\Models\FichierPropose;
 use App\Models\InvitationPromoteur;
 use App\Models\SoumissionPromoteur;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
@@ -113,13 +117,106 @@ class CollectePromoteurController extends Controller
      * doivent être lisibles que par un gestionnaire connecté, jamais par une
      * URL devinée.
      */
-    public function fichier(FichierPropose $fichier): Response
+    public function fichier(Request $request, FichierPropose $fichier): Response
     {
         abort_unless(Storage::disk('local')->exists($fichier->chemin), 404);
 
+        // `?telecharger=1` force l'enregistrement ; sans ce paramètre le fichier
+        // s'ouvre dans l'onglet, ce qui reste le plus pratique pour examiner.
+        $disposition = $request->boolean('telecharger') ? 'attachment' : 'inline';
+
         return response(Storage::disk('local')->get($fichier->chemin), 200, [
             'Content-Type' => $fichier->mime,
-            'Content-Disposition' => 'inline; filename="'.addslashes($fichier->nom_original).'"',
+            'Content-Disposition' => $disposition.'; filename="'.addslashes($fichier->nom_original).'"',
         ]);
+    }
+
+    /**
+     * Archive ZIP de toutes les pièces d'un dépôt, rangées par bien.
+     *
+     * Télécharger trente photos une par une n'est pas tenable. L'archive
+     * reproduit la structure du dépôt — un dossier par bien — pour que le
+     * contenu soit exploitable sans avoir à deviner quelle photo va où.
+     */
+    public function archive(Request $request, SoumissionPromoteur $soumission): BinaryFileResponse
+    {
+        abort_unless(class_exists(\ZipArchive::class), 501, "L'extension zip n'est pas disponible sur ce serveur.");
+
+        $soumission->load('biens.fichiers', 'fichiers');
+
+        // `?bien=` restreint l'archive à un seul bien, pour le cas courant où le
+        // gestionnaire ne veut que les photos du lot qu'il est en train de traiter.
+        $bienId = $request->integer('bien') ?: null;
+        $biens = $bienId
+            ? $soumission->biens->where('id', $bienId)->values()
+            : $soumission->biens;
+
+        abort_if($bienId && $biens->isEmpty(), 404, 'Ce bien n’appartient pas à ce dépôt.');
+        abort_if($soumission->fichiers->isEmpty(), 404, 'Ce dépôt ne contient aucune pièce.');
+
+        $chemin = tempnam(sys_get_temp_dir(), 'depot').'.zip';
+        $zip = new \ZipArchive;
+        $zip->open($chemin, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+
+        foreach ($biens as $rang => $bien) {
+            $dossier = sprintf('%02d - %s - %s', $rang + 1, $this->assainir($bien->site), $this->assainir($bien->libelle));
+
+            foreach ($bien->fichiers as $i => $fichier) {
+                $this->ajouterAuZip($zip, $fichier, $dossier, $i + 1);
+            }
+        }
+
+        if (! $bienId) {
+            foreach ($soumission->fichiers->whereNull('bien_propose_id')->values() as $i => $fichier) {
+                $this->ajouterAuZip($zip, $fichier, 'Documents generaux', $i + 1);
+            }
+        }
+
+        $zip->close();
+
+        // Une archive emporte des pièces hors de l'application : on trace qui
+        // l'a extraite, avec le journal d'audit maison du projet.
+        if (auth()->user() instanceof User) {
+            AuditLog::create([
+                'user_id' => auth()->id(),
+                'user_name' => auth()->user()->name,
+                'action' => 'archive',
+                'model_type' => class_basename($soumission),
+                'model_id' => $soumission->getKey(),
+                'summary' => 'Archive du dépôt de '.$soumission->promoteur
+                    .($bienId ? ' (bien #'.$bienId.')' : ''),
+                'changes' => ['pieces' => $soumission->fichiers->count(), 'bien' => $bienId],
+                'ip' => request()->ip(),
+            ]);
+        }
+
+        $nom = 'depot-'.Str::slug($soumission->promoteur).'-'.$soumission->id.'.zip';
+
+        return response()->download($chemin, $nom)->deleteFileAfterSend();
+    }
+
+    private function ajouterAuZip(\ZipArchive $zip, FichierPropose $fichier, string $dossier, int $rang): void
+    {
+        if (! Storage::disk('local')->exists($fichier->chemin)) {
+            return;
+        }
+
+        // Nom numéroté : deux photos peuvent porter le même nom d'origine, et
+        // la seconde écraserait la première dans l'archive.
+        $extension = pathinfo($fichier->nom_original, PATHINFO_EXTENSION) ?: 'jpg';
+        $base = pathinfo($this->assainir($fichier->nom_original), PATHINFO_FILENAME);
+
+        $zip->addFromString(
+            sprintf('%s/%02d-%s.%s', $dossier, $rang, $base, $extension),
+            Storage::disk('local')->get($fichier->chemin),
+        );
+    }
+
+    /** Retire tout ce qui pourrait casser un chemin de fichier sous Windows. */
+    private function assainir(string $valeur): string
+    {
+        $valeur = preg_replace('/[\/\\\\:*?"<>|]+/', '-', $valeur) ?? $valeur;
+
+        return trim(mb_substr($valeur, 0, 60));
     }
 }

@@ -36,6 +36,11 @@
         .fichier{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:#fff;width:150px;text-decoration:none;color:var(--text)}
         .fichier img{width:100%;height:100px;object-fit:cover;display:block}
         .fichier .nom{padding:.45rem .55rem;font-size:.76rem;line-height:1.3;word-break:break-word}
+        .fichier .apercu{display:block;text-decoration:none;color:inherit}
+        .fichier .dl{display:block;padding:.35rem .55rem;border-top:1px solid var(--border);font-size:.72rem;font-weight:700;color:var(--accent);text-decoration:none;text-align:center}
+        .fichier .dl:hover{background:rgba(237,139,28,.08)}
+        .zip{display:inline-flex;align-items:center;gap:.4rem;background:var(--accent);color:#fff;text-decoration:none;font-weight:800;font-size:.84rem;padding:.6rem 1rem;border-radius:var(--radius-sm)}
+        .zip.ghost{background:#fff;color:var(--blue);border:1.5px solid var(--border);font-size:.78rem;padding:.4rem .8rem}
         label{display:block;font-size:.74rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.35rem}
         textarea{width:100%;padding:.7rem .8rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface2);font:inherit;font-size:.9rem;min-height:80px;resize:vertical}
         .btn{border:none;border-radius:var(--radius-sm);padding:.7rem 1.2rem;font:inherit;font-weight:800;cursor:pointer}
@@ -52,8 +57,17 @@
 <div class="page">
     <div class="topbar">
         <a class="back" href="{{ route('admin.collecte.index') }}">← Collecte promoteurs</a>
-        <span class="tag {{ $soumission->statut === 'validee' ? 'ok' : ($soumission->statut === 'rejetee' ? 'no' : 'att') }}">
-            {{ $soumission->statutLabel() }}
+        <span style="display:flex;align-items:center;gap:.7rem;flex-wrap:wrap">
+            {{-- Trente photos ne se récupèrent pas une par une : l'archive est
+                 rangée en un dossier par bien pour rester exploitable. --}}
+            @if ($soumission->fichiers->isNotEmpty())
+                <a class="zip" href="{{ route('admin.collecte.archive', $soumission) }}">
+                    ⬇ Télécharger les {{ $soumission->fichiers->count() }} pièce(s) — ZIP
+                </a>
+            @endif
+            <span class="tag {{ $soumission->statut === 'validee' ? 'ok' : ($soumission->statut === 'rejetee' ? 'no' : 'att') }}">
+                {{ $soumission->statutLabel() }}
+            </span>
         </span>
     </div>
 
@@ -121,14 +135,23 @@
                 @endif
 
                 @if ($bien->fichiers->isNotEmpty())
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:.7rem;margin-top:.9rem">
+                        <label style="margin:0">Pièces de ce bien ({{ $bien->fichiers->count() }})</label>
+                        <a class="zip ghost" href="{{ route('admin.collecte.archive', $soumission) }}?bien={{ $bien->id }}">
+                            ⬇ Tout télécharger
+                        </a>
+                    </div>
                     <div class="fichiers">
                         @foreach ($bien->fichiers as $fichier)
-                            <a class="fichier" href="{{ route('admin.collecte.fichier', $fichier) }}" target="_blank" rel="noopener">
-                                @if ($fichier->estImage())
-                                    <img src="{{ route('admin.collecte.fichier', $fichier) }}" alt="{{ $fichier->nom_original }}">
-                                @endif
-                                <div class="nom">{{ $fichier->nom_original }}<br><span style="color:var(--muted)">{{ $fichier->tailleLisible() }}</span></div>
-                            </a>
+                            <div class="fichier">
+                                <a class="apercu" href="{{ route('admin.collecte.fichier', $fichier) }}" target="_blank" rel="noopener">
+                                    @if ($fichier->estImage())
+                                        <img src="{{ route('admin.collecte.fichier', $fichier) }}" alt="{{ $fichier->nom_original }}">
+                                    @endif
+                                    <div class="nom">{{ $fichier->nom_original }}<br><span style="color:var(--muted)">{{ $fichier->tailleLisible() }}</span></div>
+                                </a>
+                                <a class="dl" href="{{ route('admin.collecte.fichier', $fichier) }}?telecharger=1">⬇ Télécharger</a>
+                            </div>
                         @endforeach
                     </div>
                 @endif
@@ -142,12 +165,15 @@
             <h3>Pièces jointes générales</h3>
             <div class="fichiers">
                 @foreach ($generaux as $fichier)
-                    <a class="fichier" href="{{ route('admin.collecte.fichier', $fichier) }}" target="_blank" rel="noopener">
-                        @if ($fichier->estImage())
-                            <img src="{{ route('admin.collecte.fichier', $fichier) }}" alt="{{ $fichier->nom_original }}">
-                        @endif
-                        <div class="nom">{{ $fichier->nom_original }}<br><span style="color:var(--muted)">{{ $fichier->tailleLisible() }}</span></div>
-                    </a>
+                    <div class="fichier">
+                        <a class="apercu" href="{{ route('admin.collecte.fichier', $fichier) }}" target="_blank" rel="noopener">
+                            @if ($fichier->estImage())
+                                <img src="{{ route('admin.collecte.fichier', $fichier) }}" alt="{{ $fichier->nom_original }}">
+                            @endif
+                            <div class="nom">{{ $fichier->nom_original }}<br><span style="color:var(--muted)">{{ $fichier->tailleLisible() }}</span></div>
+                        </a>
+                        <a class="dl" href="{{ route('admin.collecte.fichier', $fichier) }}?telecharger=1">⬇ Télécharger</a>
+                    </div>
                 @endforeach
             </div>
         </div>

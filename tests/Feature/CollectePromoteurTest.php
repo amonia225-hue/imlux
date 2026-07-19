@@ -251,6 +251,65 @@ class CollectePromoteurTest extends TestCase
         $this->assertSame(SoumissionPromoteur::STATUT_VALIDEE, $soumission->fresh()->statut);
     }
 
+    /**
+     * L'archive est la seule façon raisonnable de récupérer trente photos ;
+     * on vérifie qu'elle contient bien les pièces et qu'elle est protégée.
+     */
+    public function test_the_manager_downloads_the_deposit_as_a_zip(): void
+    {
+        Storage::fake('local');
+
+        $admin = User::factory()->create(['is_admin' => true]);
+        $invitation = $this->invitation();
+        $this->post("/promoteurs/depot/{$invitation->token}", $this->formulaire());
+
+        $bien = SoumissionPromoteur::firstOrFail()->biens()->firstOrFail();
+        $this->post("/promoteurs/depot/{$invitation->token}/fichiers", [
+            'categorie' => 'photo',
+            'bien_propose_id' => $bien->id,
+            'fichiers' => [UploadedFile::fake()->image('facade.jpg')],
+        ]);
+
+        $soumission = SoumissionPromoteur::firstOrFail();
+
+        $this->get("/admin/collecte-promoteurs/depots/{$soumission->id}/archive")->assertRedirect();
+
+        $reponse = $this->actingAs($admin)
+            ->get("/admin/collecte-promoteurs/depots/{$soumission->id}/archive")
+            ->assertOk();
+
+        $chemin = tempnam(sys_get_temp_dir(), 'test').'.zip';
+        file_put_contents($chemin, $reponse->streamedContent());
+
+        $zip = new \ZipArchive;
+        $zip->open($chemin);
+        $this->assertSame(1, $zip->numFiles);
+        $this->assertStringContainsString('facade', $zip->getNameIndex(0));
+        $zip->close();
+        @unlink($chemin);
+    }
+
+    public function test_a_file_can_be_forced_as_a_download(): void
+    {
+        Storage::fake('local');
+
+        $admin = User::factory()->create(['is_admin' => true]);
+        $invitation = $this->invitation();
+        $this->post("/promoteurs/depot/{$invitation->token}", $this->formulaire());
+        $this->post("/promoteurs/depot/{$invitation->token}/fichiers", [
+            'categorie' => 'photo',
+            'fichiers' => [UploadedFile::fake()->image('plan.jpg')],
+        ]);
+
+        $fichier = SoumissionPromoteur::firstOrFail()->fichiers()->firstOrFail();
+
+        $this->actingAs($admin)->get("/admin/collecte-promoteurs/fichiers/{$fichier->id}")
+            ->assertHeader('Content-Disposition', 'inline; filename="plan.jpg"');
+
+        $this->actingAs($admin)->get("/admin/collecte-promoteurs/fichiers/{$fichier->id}?telecharger=1")
+            ->assertHeader('Content-Disposition', 'attachment; filename="plan.jpg"');
+    }
+
     public function test_the_collection_screens_require_authentication(): void
     {
         $this->get('/admin/collecte-promoteurs')->assertRedirect();
