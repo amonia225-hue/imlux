@@ -6,6 +6,7 @@ use App\Models\BienPropose;
 use App\Models\FichierPropose;
 use App\Models\InvitationPromoteur;
 use App\Models\SoumissionPromoteur;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -23,9 +24,18 @@ use Illuminate\View\View;
  */
 class DepotPromoteurController extends Controller
 {
-    /** 8 Mo par fichier : au-delà, un plan scanné devient un vecteur de saturation. */
-    private const TAILLE_MAX_KO = 8192;
+    /**
+     * 10 Mo par fichier.
+     *
+     * L'hébergeur plafonne la requête entière à 64 Mo (`post_max_size`), pas
+     * seulement le fichier : les envois se font donc UN PAR UN, jamais en lot.
+     * Les photos sont par ailleurs compressées par le navigateur avant d'être
+     * transmises — elles pèsent en pratique moins d'un mégaoctet. Cette limite
+     * couvre surtout les PDF de plans, qu'on ne peut pas compresser.
+     */
+    private const TAILLE_MAX_KO = 10240;
 
+    /** Par bien, et non par dépôt : chaque logement mérite ses propres vues. */
     private const PHOTOS_MAX = 12;
 
     public function show(string $token): View
@@ -55,7 +65,7 @@ class DepotPromoteurController extends Controller
         ]);
     }
 
-    public function enregistrer(Request $request, string $token): RedirectResponse
+    public function enregistrer(Request $request, string $token): RedirectResponse|JsonResponse
     {
         $invitation = $this->invitation($token);
         abort_unless($invitation->estUtilisable(), 410);
@@ -114,6 +124,24 @@ class DepotPromoteurController extends Controller
                 ]);
             }
         });
+
+        // Enregistrement déclenché par le bouton « Suivant » d'un bien : on
+        // renvoie les identifiants attribués pour que la page puisse ouvrir la
+        // zone photos du bien sans se recharger ni perdre la saisie en cours.
+        if ($request->expectsJson()) {
+            return response()->json([
+                'ok' => true,
+                'transmis' => $transmettre,
+                'biens' => $soumission->biens()->orderBy('ordre')->get()
+                    ->map(fn (BienPropose $b) => [
+                        'ordre' => $b->ordre,
+                        'id' => $b->id,
+                        'libelle' => $b->libelle,
+                        'site' => $b->site,
+                        'photos' => $b->fichiers()->count(),
+                    ]),
+            ]);
+        }
 
         if ($transmettre) {
             return redirect()->route('promoteur.depot', $token);
@@ -191,7 +219,7 @@ class DepotPromoteurController extends Controller
         }
     }
 
-    public function televerser(Request $request, string $token): RedirectResponse
+    public function televerser(Request $request, string $token): RedirectResponse|JsonResponse
     {
         $invitation = $this->invitation($token);
         abort_unless($invitation->estUtilisable(), 410);
@@ -208,7 +236,7 @@ class DepotPromoteurController extends Controller
             'fichiers.*' => ['file', 'max:'.self::TAILLE_MAX_KO, 'mimes:jpg,jpeg,png,webp,pdf'],
         ], [
             'fichiers.*.mimes' => 'Formats acceptés : JPEG, PNG, WebP et PDF.',
-            'fichiers.*.max' => 'Chaque fichier doit peser moins de 8 Mo.',
+            'fichiers.*.max' => 'Chaque fichier doit peser moins de 10 Mo.',
         ]);
 
         $bien = $request->filled('bien_propose_id')
@@ -217,17 +245,30 @@ class DepotPromoteurController extends Controller
 
         $categorie = $request->string('categorie')->toString();
 
-        if ($categorie === FichierPropose::CATEGORIE_PHOTO
-            && $soumission->fichiers()->where('categorie', FichierPropose::CATEGORIE_PHOTO)->count() >= self::PHOTOS_MAX) {
-            return back()->withErrors(['fichiers' => 'Maximum '.self::PHOTOS_MAX.' photos par dépôt.']);
+        // Le plafond s'applique au bien concerné, pas au dépôt entier : un
+        // promoteur qui déclare dix logements doit pouvoir illustrer chacun.
+        $dejaPresentes = $categorie === FichierPropose::CATEGORIE_PHOTO
+            ? ($bien
+                ? $bien->fichiers()->where('categorie', FichierPropose::CATEGORIE_PHOTO)->count()
+                : $soumission->fichiers()->whereNull('bien_propose_id')->where('categorie', FichierPropose::CATEGORIE_PHOTO)->count())
+            : 0;
+
+        if ($categorie === FichierPropose::CATEGORIE_PHOTO && $dejaPresentes >= self::PHOTOS_MAX) {
+            $message = 'Maximum '.self::PHOTOS_MAX.' photos'.($bien ? ' par bien.' : '.');
+
+            return $request->expectsJson()
+                ? response()->json(['ok' => false, 'message' => $message], 422)
+                : back()->withErrors(['fichiers' => $message]);
         }
+
+        $ajoutes = [];
 
         foreach ($request->file('fichiers') as $fichier) {
             // Disque privé, nom généré : le nom d'origine n'est jamais réutilisé
             // dans le chemin, il pourrait contenir n'importe quoi.
             $chemin = $fichier->store("depots/{$soumission->id}", 'local');
 
-            $soumission->fichiers()->create([
+            $ajoutes[] = $soumission->fichiers()->create([
                 'bien_propose_id' => $bien?->id,
                 'categorie' => $categorie,
                 'chemin' => $chemin,
@@ -237,10 +278,24 @@ class DepotPromoteurController extends Controller
             ]);
         }
 
+        if ($request->expectsJson()) {
+            return response()->json([
+                'ok' => true,
+                'fichiers' => collect($ajoutes)->map(fn (FichierPropose $f) => [
+                    'id' => $f->id,
+                    'nom' => $f->nom_original,
+                    'taille' => $f->tailleLisible(),
+                    'image' => $f->estImage(),
+                    'url' => route('promoteur.depot.fichier', [$token, $f]),
+                    'suppression' => route('promoteur.depot.fichiers.supprimer', [$token, $f]),
+                ]),
+            ]);
+        }
+
         return back()->with('ok', 'Fichier(s) ajouté(s).');
     }
 
-    public function supprimerFichier(string $token, FichierPropose $fichier): RedirectResponse
+    public function supprimerFichier(Request $request, string $token, FichierPropose $fichier): RedirectResponse|JsonResponse
     {
         $invitation = $this->invitation($token);
         abort_unless($invitation->estUtilisable(), 410);
@@ -253,6 +308,10 @@ class DepotPromoteurController extends Controller
 
         Storage::disk('local')->delete($fichier->chemin);
         $fichier->delete();
+
+        if ($request->expectsJson()) {
+            return response()->json(['ok' => true]);
+        }
 
         return back()->with('ok', 'Fichier supprimé.');
     }

@@ -102,4 +102,21 @@
         <label>Commentaire</label>
         <textarea name="biens[{{ $i }}][commentaire]">{{ $bien['commentaire'] ?? '' }}</textarea>
     </div>
+
+    {{-- « Suivant » enregistre ce bien et ouvre sa zone photos. Le promoteur ne
+         doit pas avoir à penser à sauvegarder : sans identifiant en base, une
+         photo n'aurait rien à quoi se rattacher. --}}
+    <div class="dp-suivant">
+        <button type="button" class="dp-btn dp-btn-primary" data-suivant="{{ $i }}">
+            {{ empty($bien['id']) ? 'Suivant — ajouter les photos' : 'Enregistrer les modifications' }}
+        </button>
+        <span class="dp-etat" data-etat="{{ $i }}"></span>
+    </div>
+
+    @include('promoteur.partials.photos-bien', [
+        'i' => $i,
+        'bien' => $bien,
+        'token' => $invitation->token,
+        'fichiers' => $fichiersParBien[$bien['id'] ?? 0] ?? [],
+    ])
 </div>

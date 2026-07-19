@@ -35,6 +35,22 @@
     .dp-files{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:.8rem}
     .dp-file{border:1px solid var(--line);border-radius:10px;padding:.5rem .7rem;background:#fff;font-size:.82rem;display:flex;align-items:center;gap:.6rem}
     .dp-file img{width:44px;height:44px;object-fit:cover;border-radius:6px}
+    .dp-suivant{display:flex;align-items:center;gap:.9rem;flex-wrap:wrap;margin-top:1.1rem;padding-top:1rem;border-top:1px solid var(--line)}
+    .dp-etat{font-size:.84rem;color:var(--muted)}
+    .dp-etat.ok{color:#1F6B4C;font-weight:600}
+    .dp-etat.ko{color:#B0322A;font-weight:600}
+    .dp-zone{margin-top:1.1rem;padding-top:1rem;border-top:1px dashed var(--line)}
+    .dp-zone-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem}
+    .dp-zone-head strong{font-size:.9rem;color:var(--ink)}
+    .dp-zone-count{font-size:.8rem;color:var(--muted)}
+    .dp-zone-hint{font-size:.8rem;color:var(--muted);line-height:1.55;margin:0 0 .8rem}
+    .dp-drop{display:flex;align-items:center;justify-content:center;padding:1.4rem;border:1.5px dashed var(--blue-soft);border-radius:12px;background:#F8FAFF;cursor:pointer;transition:.15s}
+    .dp-drop:hover,.dp-drop.over{background:#EEF3FF;border-color:var(--blue)}
+    .dp-drop-txt{font-size:.88rem;color:var(--blue);font-weight:600}
+    .dp-progress{margin-top:.8rem}
+    .dp-progress-bar{height:6px;border-radius:99px;background:var(--line);overflow:hidden}
+    .dp-progress-bar span{display:block;height:100%;width:0;background:var(--orange);transition:width .2s}
+    .dp-progress-txt{font-size:.8rem;color:var(--muted);margin-top:.4rem}
     .dp-actions{display:flex;gap:.8rem;flex-wrap:wrap;align-items:center;margin-top:1.2rem}
 @endsection
 
@@ -116,8 +132,14 @@
                     'ilot' => $b->lots->first()->ilot ?? '',
                 ])->all(); @endphp
 
+                @php $fichiersParBien = $soumission->fichiers->whereNotNull('bien_propose_id')->groupBy('bien_propose_id'); @endphp
+
                 @foreach ($biens as $i => $bien)
-                    @include('promoteur.partials.bien', ['i' => $i, 'bien' => $bien, 'types' => $types, 'modes' => $modes, 'documents' => $documents])
+                    @include('promoteur.partials.bien', [
+                        'i' => $i, 'bien' => $bien, 'types' => $types, 'modes' => $modes,
+                        'documents' => $documents, 'invitation' => $invitation,
+                        'fichiersParBien' => $fichiersParBien,
+                    ])
                 @endforeach
             </div>
 
@@ -130,75 +152,6 @@
             <span style="font-size:.82rem;color:var(--muted)">Après transmission, le formulaire ne sera plus modifiable.</span>
         </div>
     </form>
-
-    {{-- ============ PHOTOS PAR BIEN ============ --}}
-    <div class="dp-card" style="margin-top:1.4rem">
-        <h2>Photos et documents</h2>
-        <p class="hint">
-            JPEG, PNG, WebP ou PDF, 8 Mo maximum par fichier. Chaque photo se rattache au bien
-            concerné ; les pièces qui valent pour tout le site vont dans le dernier bloc.
-            Ces fichiers ne sont visibles que par notre bureau d'études.
-        </p>
-
-        @forelse ($soumission->biens as $bien)
-            <div class="dp-bien" style="margin-bottom:1.1rem">
-                <div class="dp-bien-head">
-                    <strong>{{ $bien->libelle }} <span style="font-weight:400;color:var(--muted)">— {{ $bien->site }}</span></strong>
-                </div>
-
-                <form method="POST" action="{{ route('promoteur.depot.fichiers', $invitation->token) }}" enctype="multipart/form-data">
-                    @csrf
-                    <input type="hidden" name="bien_propose_id" value="{{ $bien->id }}">
-                    <div class="dp-grid c2">
-                        <div class="dp-field">
-                            <label for="cat-{{ $bien->id }}">Type</label>
-                            <select id="cat-{{ $bien->id }}" name="categorie">
-                                <option value="photo">Photo du bien</option>
-                                <option value="document">Document (plan, ACD, agrément…)</option>
-                            </select>
-                        </div>
-                        <div class="dp-field">
-                            <label for="fic-{{ $bien->id }}">Fichiers</label>
-                            <input id="fic-{{ $bien->id }}" type="file" name="fichiers[]" multiple accept=".jpg,.jpeg,.png,.webp,.pdf" required>
-                        </div>
-                    </div>
-                    <button type="submit" class="dp-btn dp-btn-ghost" style="margin-top:.9rem">Ajouter à ce bien</button>
-                </form>
-
-                @if ($bien->fichiers->isNotEmpty())
-                    <div class="dp-files">
-                        @foreach ($bien->fichiers as $fichier)
-                            <div class="dp-file">
-                                @if ($fichier->estImage())
-                                    <img src="{{ route('promoteur.depot.fichier', [$invitation->token, $fichier]) }}" alt="">
-                                @endif
-                                <span>
-                                    <strong>{{ $fichier->nom_original }}</strong><br>
-                                    <span style="color:var(--muted)">{{ $fichier->categorie }} · {{ $fichier->tailleLisible() }}</span>
-                                </span>
-                                <form method="POST" action="{{ route('promoteur.depot.fichiers.supprimer', [$invitation->token, $fichier]) }}">
-                                    @csrf
-                                    <button type="submit" class="dp-btn-link">Retirer</button>
-                                </form>
-                            </div>
-                        @endforeach
-                    </div>
-                @endif
-            </div>
-        @empty
-            <p style="font-size:.9rem;color:var(--muted)">
-                Ajoutez d'abord un bien ci-dessus, puis enregistrez le brouillon : vous pourrez
-                ensuite y joindre ses photos.
-            </p>
-        @endforelse
-
-        {{-- Un bien tout juste ajouté n'a pas encore d'identifiant en base : il faut enregistrer
-             le brouillon avant de pouvoir lui rattacher un fichier. --}}
-        <div style="background:#FCFBF8;border:1px solid var(--line);border-radius:11px;padding:.9rem 1.1rem;font-size:.85rem;color:var(--muted);margin-top:.4rem">
-            Vous venez d'ajouter un bien ? Enregistrez le brouillon pour qu'il apparaisse ici et
-            puisse recevoir ses photos.
-        </div>
-    </div>
 
     {{-- ============ DOCUMENTS GENERAUX ============ --}}
     <div class="dp-card" style="margin-top:1.1rem">
@@ -286,9 +239,235 @@
                 <div class="dp-check">${chk(DP_DOCS, 'documents')}</div>
             </div>
             <div class="dp-field" style="margin-top:.9rem"><label>Commentaire</label><textarea name="biens[${i}][commentaire]"></textarea></div>
+            <input type="hidden" name="biens[${i}][id]" value="">
+            <div class="dp-suivant">
+                <button type="button" class="dp-btn dp-btn-primary" data-suivant="${i}">Suivant — ajouter les photos</button>
+                <span class="dp-etat" data-etat="${i}"></span>
+            </div>
+            <div class="dp-zone" data-zone="${i}" data-bien-id="" hidden>
+                <div class="dp-zone-head">
+                    <strong>Photos de ce bien</strong>
+                    <span class="dp-zone-count" data-count="${i}">0 / 12</span>
+                </div>
+                <p class="dp-zone-hint">JPEG, PNG ou WebP. Les photos sont <strong>allégées automatiquement</strong> avant l'envoi : déposez vos originaux sans vous soucier de leur poids. Les PDF partent tels quels, 10 Mo maximum.</p>
+                <label class="dp-drop" data-drop="${i}">
+                    <input type="file" multiple accept=".jpg,.jpeg,.png,.webp,.pdf" data-input="${i}" hidden>
+                    <span class="dp-drop-txt">Cliquez ou déposez vos fichiers ici</span>
+                </label>
+                <div class="dp-progress" data-progress="${i}" hidden>
+                    <div class="dp-progress-bar"><span></span></div>
+                    <div class="dp-progress-txt"></div>
+                </div>
+                <div class="dp-files" data-files="${i}"></div>
+            </div>
         `;
         document.getElementById('dp-biens').appendChild(bloc);
     }
+
+
+    /* ================= Enregistrement d'un bien et dépôt de ses photos =================
+       Le promoteur ne doit jamais avoir à « penser à sauvegarder ». « Suivant »
+       enregistre le brouillon, récupère l'identifiant du bien et ouvre sa zone
+       photos — sans recharger la page, donc sans perdre ce qui est déjà saisi. */
+
+    const DP_URL_ENREGISTRER = @json(route('promoteur.depot.enregistrer', $invitation->token));
+    const DP_URL_FICHIERS    = @json(route('promoteur.depot.fichiers', $invitation->token));
+    const DP_CSRF            = @json(csrf_token());
+
+    /* L'hébergeur plafonne la requête entière à 64 Mo : on n'envoie jamais un lot,
+       toujours un fichier à la fois. */
+    const DP_MAX_OCTETS = 10 * 1024 * 1024;
+    const DP_LARGEUR_MAX = 2000;   // suffisant pour une annonce en plein écran
+    const DP_QUALITE = 0.82;
+
+    const dpQs = (s, r = document) => r.querySelector(s);
+
+    function dpEtat(i, texte, classe = '') {
+        const e = dpQs(`[data-etat="${i}"]`);
+        if (e) { e.textContent = texte; e.className = 'dp-etat ' + classe; }
+    }
+
+    /* Réduit une photo dans le navigateur avant l'envoi. Un original d'appareil
+       photo de 40 Mo redescend sous le mégaoctet, sans différence visible à
+       l'écran — c'est ce qui rend l'envoi possible depuis un téléphone. */
+    async function dpCompresser(fichier) {
+        if (!fichier.type.startsWith('image/')) return fichier;
+
+        try {
+            const bitmap = await createImageBitmap(fichier);
+            const ratio = Math.min(1, DP_LARGEUR_MAX / Math.max(bitmap.width, bitmap.height));
+            const c = document.createElement('canvas');
+            c.width = Math.round(bitmap.width * ratio);
+            c.height = Math.round(bitmap.height * ratio);
+            c.getContext('2d').drawImage(bitmap, 0, 0, c.width, c.height);
+
+            const blob = await new Promise((r) => c.toBlob(r, 'image/jpeg', DP_QUALITE));
+            if (!blob || blob.size >= fichier.size) return fichier;   // déjà optimisé
+
+            const nom = fichier.name.replace(/\.[^.]+$/, '') + '.jpg';
+            return new File([blob], nom, { type: 'image/jpeg' });
+        } catch (e) {
+            // Navigateur trop ancien : on envoie l'original plutôt que d'échouer.
+            return fichier;
+        }
+    }
+
+    const dpKo = (o) => o >= 1048576 ? (o / 1048576).toFixed(1) + ' Mo' : Math.round(o / 1024) + ' Ko';
+
+    async function dpEnregistrer(i) {
+        const form = dpQs('#dp-form');
+        const donnees = new FormData(form);
+        donnees.delete('transmettre');
+
+        dpEtat(i, 'Enregistrement…');
+
+        const r = await fetch(DP_URL_ENREGISTRER, {
+            method: 'POST',
+            headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+            body: donnees,
+        });
+
+        if (!r.ok) {
+            const err = await r.json().catch(() => ({}));
+            const premier = err.errors ? Object.values(err.errors)[0][0] : 'Vérifiez les champs obligatoires.';
+            dpEtat(i, premier, 'ko');
+            return null;
+        }
+
+        const data = await r.json();
+
+        // Les identifiants attribués sont réinjectés dans le formulaire, sinon
+        // le prochain enregistrement recréerait des biens en double.
+        data.biens.forEach((b) => {
+            const champ = dpQs(`input[name="biens[${b.ordre}][id]"]`);
+            if (champ) champ.value = b.id;
+            const zone = dpQs(`[data-zone="${b.ordre}"]`);
+            if (zone) { zone.dataset.bienId = b.id; zone.hidden = false; }
+        });
+
+        dpEtat(i, 'Bien enregistré — ajoutez ses photos ci-dessous.', 'ok');
+        return data;
+    }
+
+    async function dpEnvoyer(i, fichiers) {
+        const zone = dpQs(`[data-zone="${i}"]`);
+        const bienId = zone?.dataset.bienId;
+        if (!bienId) { dpEtat(i, 'Enregistrez d\'abord ce bien.', 'ko'); return; }
+
+        const prog = dpQs(`[data-progress="${i}"]`);
+        const barre = dpQs('.dp-progress-bar span', prog);
+        const texte = dpQs('.dp-progress-txt', prog);
+        prog.hidden = false;
+
+        let n = 0;
+        for (const brut of fichiers) {
+            n++;
+            texte.textContent = `Préparation de ${brut.name} (${n}/${fichiers.length})…`;
+
+            const fichier = await dpCompresser(brut);
+
+            if (fichier.size > DP_MAX_OCTETS) {
+                texte.textContent = `${brut.name} dépasse 10 Mo même après compression — ignoré.`;
+                continue;
+            }
+
+            const allege = fichier !== brut ? ` (${dpKo(brut.size)} → ${dpKo(fichier.size)})` : '';
+            texte.textContent = `Envoi de ${brut.name}${allege} — ${n}/${fichiers.length}`;
+            barre.style.width = Math.round(((n - 1) / fichiers.length) * 100) + '%';
+
+            const donnees = new FormData();
+            donnees.append('_token', DP_CSRF);
+            donnees.append('bien_propose_id', bienId);
+            donnees.append('categorie', fichier.type === 'application/pdf' ? 'document' : 'photo');
+            donnees.append('fichiers[]', fichier);
+
+            const r = await fetch(DP_URL_FICHIERS, {
+                method: 'POST',
+                headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+                body: donnees,
+            });
+
+            if (!r.ok) {
+                const err = await r.json().catch(() => ({}));
+                texte.textContent = err.message || `Échec sur ${brut.name}.`;
+                continue;
+            }
+
+            const data = await r.json();
+            data.fichiers.forEach((f) => dpAjouterVignette(i, f));
+        }
+
+        barre.style.width = '100%';
+        texte.textContent = 'Terminé.';
+        setTimeout(() => { prog.hidden = true; barre.style.width = '0'; }, 2500);
+        dpMajCompteur(i);
+    }
+
+    function dpAjouterVignette(i, f) {
+        const bloc = document.createElement('div');
+        bloc.className = 'dp-file';
+        bloc.dataset.file = f.id;
+        bloc.innerHTML = `${f.image ? `<img src="${f.url}" alt="">` : ''}
+            <span><strong>${f.nom}</strong><br><span style="color:var(--muted)">${f.taille}</span></span>
+            <button type="button" class="dp-btn-link" data-supprimer="${f.suppression}">Retirer</button>`;
+        dpQs(`[data-files="${i}"]`).appendChild(bloc);
+    }
+
+    function dpMajCompteur(i) {
+        const n = dpQs(`[data-files="${i}"]`).querySelectorAll('.dp-file').length;
+        const c = dpQs(`[data-count="${i}"]`);
+        if (c) c.textContent = `${n} / 12`;
+    }
+
+    /* Délégation : les blocs de biens sont créés dynamiquement, on ne peut pas
+       attacher les écouteurs à l'avance. */
+    document.addEventListener('click', async (e) => {
+        const suivant = e.target.closest('[data-suivant]');
+        if (suivant) {
+            suivant.disabled = true;
+            await dpEnregistrer(suivant.dataset.suivant);
+            suivant.disabled = false;
+            suivant.textContent = 'Enregistrer les modifications';
+            return;
+        }
+
+        const drop = e.target.closest('[data-drop]');
+        if (drop) { dpQs(`[data-input="${drop.dataset.drop}"]`).click(); return; }
+
+        const sup = e.target.closest('[data-supprimer]');
+        if (sup) {
+            const r = await fetch(sup.dataset.supprimer, {
+                method: 'POST',
+                headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest', 'X-CSRF-TOKEN': DP_CSRF },
+            });
+            if (r.ok) {
+                const bloc = sup.closest('.dp-file');
+                const zone = bloc.closest('.dp-zone');
+                bloc.remove();
+                if (zone) dpMajCompteur(zone.dataset.zone);
+            }
+        }
+    });
+
+    document.addEventListener('change', (e) => {
+        const input = e.target.closest('[data-input]');
+        if (input && input.files.length) {
+            dpEnvoyer(input.dataset.input, [...input.files]);
+            input.value = '';
+        }
+    });
+
+    ['dragover', 'dragleave', 'drop'].forEach((type) => {
+        document.addEventListener(type, (e) => {
+            const drop = e.target.closest('[data-drop]');
+            if (!drop) return;
+            e.preventDefault();
+            drop.classList.toggle('over', type === 'dragover');
+            if (type === 'drop' && e.dataTransfer.files.length) {
+                dpEnvoyer(drop.dataset.drop, [...e.dataTransfer.files]);
+            }
+        });
+    });
 
     // Un formulaire vide n'aide personne : on ouvre sur un premier bloc.
     if (dpIndex === 0) { dpAjouterBien(); }
