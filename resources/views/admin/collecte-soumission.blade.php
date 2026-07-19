@@ -6,16 +6,21 @@
     <title>Dépôt de {{ $soumission->promoteur }} — Lorny Conseils Management</title>
     <link rel="icon" type="image/jpeg" href="{{ asset('image/logo.jpeg') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,700&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root{--bg:#f6f4ee;--surface:#ffffff;--border:#e6e0d2;--text:#1d2b22;--muted:#6b7770;--accent:#a8801e;--success:#1f8a5a;--warning:#b9831f;--danger:#c2412f;--radius:16px;--radius-sm:12px}
+        :root{
+            --bg:#EEF1F7;--surface:#ffffff;--surface2:#F4F6FB;--border:#E2E7F0;
+            --text:#0d1a33;--muted:#5b647a;--accent:#ED8B1C;--accent2:#C9710E;
+            --blue:#1E40AF;--blue2:#3B5BDB;--success:#1f8a5a;--warning:#C9710E;--danger:#c2412f;
+            --radius:16px;--radius-sm:12px;
+        }
         *{box-sizing:border-box;margin:0;padding:0}
-        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text)}
+        body{font-family:'Jost',sans-serif;background:var(--bg);color:var(--text)}
         .page{max-width:1060px;margin:0 auto;padding:1rem 1rem 4rem}
         .topbar{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:1rem;flex-wrap:wrap}
         .topbar a.back{color:var(--muted);text-decoration:none;font-weight:600;font-size:.88rem;border:1px solid var(--border);padding:.5rem .9rem;border-radius:var(--radius-sm)}
-        .hero{background:linear-gradient(135deg,#123d2c,#1f6b4c 55%,#2e8b5f);border-radius:22px;padding:1.4rem 1.6rem;color:#fff}
-        .hero h1{font-family:'Cormorant Garamond',serif;font-size:1.8rem}
+        .hero{background:linear-gradient(120deg,#0B1426 0%,#16329B 68%,#1E40AF 100%);border-radius:22px;padding:1.4rem 1.6rem;color:#fff}
+        .hero h1{font-family:'Playfair Display',serif;font-size:1.8rem}
         .hero p{color:rgba(255,255,255,.85);font-size:.9rem;margin-top:.35rem}
         .panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;margin-top:1rem}
         .panel h3{font-size:1.05rem;font-weight:700;margin-bottom:.6rem}
@@ -23,18 +28,18 @@
         @media(min-width:700px){.grid.c2{grid-template-columns:repeat(2,1fr)}.grid.c3{grid-template-columns:repeat(3,1fr)}}
         .kv{font-size:.88rem}
         .kv span{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;margin-bottom:.15rem}
-        .bien{border:1px solid var(--border);border-radius:14px;padding:1rem;margin-bottom:.9rem;background:#fcfbf6}
+        .bien{border:1px solid var(--border);border-radius:14px;padding:1rem;margin-bottom:.9rem;background:var(--surface2)}
         .bien h4{font-size:1rem;font-weight:700;margin-bottom:.7rem}
-        .puce{display:inline-block;font-size:.74rem;font-weight:600;padding:.2rem .6rem;border-radius:999px;background:#f0ece0;color:var(--muted);margin:0 .3rem .3rem 0}
+        .puce{display:inline-block;font-size:.74rem;font-weight:600;padding:.2rem .6rem;border-radius:999px;background:var(--surface2);color:var(--muted);margin:0 .3rem .3rem 0}
         .puce.on{background:rgba(31,138,90,.12);color:var(--success)}
         .fichiers{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:.7rem}
         .fichier{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:#fff;width:150px;text-decoration:none;color:var(--text)}
         .fichier img{width:100%;height:100px;object-fit:cover;display:block}
         .fichier .nom{padding:.45rem .55rem;font-size:.76rem;line-height:1.3;word-break:break-word}
         label{display:block;font-size:.74rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.35rem}
-        textarea{width:100%;padding:.7rem .8rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:#f3f1e9;font:inherit;font-size:.9rem;min-height:80px;resize:vertical}
+        textarea{width:100%;padding:.7rem .8rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface2);font:inherit;font-size:.9rem;min-height:80px;resize:vertical}
         .btn{border:none;border-radius:var(--radius-sm);padding:.7rem 1.2rem;font:inherit;font-weight:800;cursor:pointer}
-        .btn-ok{background:linear-gradient(135deg,#e8ce7e,#c8a24a 55%,#9c7b2e);color:#1a1206}
+        .btn-ok{background:var(--accent);color:#fff}
         .btn-no{background:#fff;color:var(--danger);border:1.5px solid rgba(194,65,47,.4)}
         .err{background:rgba(194,65,47,.08);border:1px solid rgba(194,65,47,.25);color:var(--danger);border-radius:var(--radius-sm);padding:.65rem .8rem;font-size:.88rem;margin-bottom:.8rem}
         .tag{display:inline-block;font-size:.74rem;font-weight:700;padding:.25rem .7rem;border-radius:999px}

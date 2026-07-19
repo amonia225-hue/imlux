@@ -6,39 +6,40 @@
     <title>Collecte promoteurs — Lorny Conseils Management</title>
     <link rel="icon" type="image/jpeg" href="{{ asset('image/logo.jpeg') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,700&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root{
-            --bg:#f6f4ee;--surface:#ffffff;--surface2:#f3f1e9;--border:#e6e0d2;
-            --text:#1d2b22;--muted:#6b7770;--accent:#a8801e;--success:#1f8a5a;--warning:#b9831f;--danger:#c2412f;
+            --bg:#EEF1F7;--surface:#ffffff;--surface2:#F4F6FB;--border:#E2E7F0;
+            --text:#0d1a33;--muted:#5b647a;--accent:#ED8B1C;--accent2:#C9710E;
+            --blue:#1E40AF;--blue2:#3B5BDB;--success:#1f8a5a;--warning:#C9710E;--danger:#c2412f;
             --radius:16px;--radius-sm:12px;
         }
         *{box-sizing:border-box;margin:0;padding:0}
-        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+        body{font-family:'Jost',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
         .page{max-width:1200px;margin:0 auto;padding:1rem}
         .topbar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-bottom:1rem}
         .topbar a.back{color:var(--muted);text-decoration:none;font-weight:600;font-size:.88rem;border:1px solid var(--border);padding:.5rem .9rem;border-radius:var(--radius-sm)}
         .topbar a.back:hover{color:var(--text);border-color:var(--accent)}
-        .hero{background:linear-gradient(135deg,#123d2c,#1f6b4c 55%,#2e8b5f);border:1px solid rgba(200,162,74,.25);border-radius:22px;padding:1.4rem 1.6rem;box-shadow:0 20px 40px rgba(18,61,44,.45);color:#fff}
-        .hero h1{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:700}
+        .hero{background:linear-gradient(120deg,#0B1426 0%,#16329B 68%,#1E40AF 100%);border:1px solid #1E40AF;border-left:5px solid var(--accent);border-radius:22px;padding:1.4rem 1.6rem;box-shadow:0 18px 36px rgba(11,20,38,.35);color:#fff}
+        .hero h1{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700}
         .hero p{color:rgba(255,255,255,.8);margin-top:.3rem;font-size:.92rem;max-width:70ch;line-height:1.6}
-        .panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;margin-top:1rem;box-shadow:0 4px 18px rgba(31,107,76,.07)}
+        .panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;margin-top:1rem;box-shadow:0 4px 18px rgba(30,64,175,.07)}
         .panel h3{font-size:1.1rem;font-weight:700;margin-bottom:.3rem}
         .panel .subtitle{color:var(--muted);font-size:.85rem;margin-bottom:1rem}
         label{display:block;font-size:.74rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.35rem}
-        input,select,textarea{width:100%;padding:.7rem .8rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:#f3f1e9;color:var(--text);font:inherit;font-size:.9rem}
-        input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(200,162,74,.15)}
+        input,select,textarea{width:100%;padding:.7rem .8rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface2);color:var(--text);font:inherit;font-size:.9rem}
+        input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(30,64,175,.15)}
         .form-grid{display:grid;gap:.8rem;grid-template-columns:1fr}
         @media(min-width:720px){.form-grid{grid-template-columns:repeat(3,1fr)}}
-        .btn{border:none;border-radius:var(--radius-sm);padding:.7rem 1.1rem;font:inherit;font-weight:800;color:#1a1206;background:linear-gradient(135deg,#e8ce7e,#c8a24a 55%,#9c7b2e);cursor:pointer}
-        .icon-btn{border:1px solid var(--border);background:#f3f1e9;color:var(--muted);border-radius:8px;padding:.35rem .7rem;font:inherit;font-size:.78rem;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block}
+        .btn{border:none;border-radius:var(--radius-sm);padding:.7rem 1.1rem;font:inherit;font-weight:800;color:#fff;background:var(--accent);cursor:pointer}
+        .icon-btn{border:1px solid var(--border);background:var(--surface2);color:var(--muted);border-radius:8px;padding:.35rem .7rem;font:inherit;font-size:.78rem;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block}
         .icon-btn:hover{color:var(--text);border-color:var(--accent)}
         .icon-btn.danger:hover{color:var(--danger);border-color:rgba(248,113,113,.4)}
         .flash{background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.25);color:var(--success);border-radius:var(--radius-sm);padding:.65rem .8rem;font-size:.88rem;margin-bottom:.8rem}
         .err{background:rgba(194,65,47,.08);border:1px solid rgba(194,65,47,.25);color:var(--danger);border-radius:var(--radius-sm);padding:.65rem .8rem;font-size:.88rem;margin-bottom:.8rem}
         table{width:100%;border-collapse:collapse;font-size:.88rem}
         th{text-align:left;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);padding:.5rem .4rem;border-bottom:1px solid var(--border)}
-        td{padding:.7rem .4rem;border-bottom:1px solid #f0ece0;vertical-align:top}
+        td{padding:.7rem .4rem;border-bottom:1px solid var(--border);vertical-align:top}
         .lien{display:flex;gap:.4rem;align-items:center}
         .lien input{font-family:ui-monospace,monospace;font-size:.75rem;background:#fff}
         .tag{display:inline-block;font-size:.72rem;font-weight:700;padding:.2rem .6rem;border-radius:999px}
