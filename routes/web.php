@@ -120,6 +120,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 Route::middleware('throttle:30,1')->prefix('promoteurs/depot')->name('promoteur.')->group(function () {
     Route::get('/{token}', [DepotPromoteurController::class, 'show'])->name('depot');
     Route::post('/{token}', [DepotPromoteurController::class, 'enregistrer'])->name('depot.enregistrer');
+    Route::get('/{token}/fichiers/{fichier}', [DepotPromoteurController::class, 'fichier'])->name('depot.fichier');
     Route::post('/{token}/fichiers', [DepotPromoteurController::class, 'televerser'])->name('depot.fichiers');
     Route::post('/{token}/fichiers/{fichier}/supprimer', [DepotPromoteurController::class, 'supprimerFichier'])->name('depot.fichiers.supprimer');
 });

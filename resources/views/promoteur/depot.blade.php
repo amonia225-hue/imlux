@@ -3,7 +3,6 @@
 @section('title', 'Dépôt de biens — Promoteur')
 
 @section('styles')
-<style>
     /* La barre de navigation du site est fixe : sans ce dégagement, le titre
        du formulaire passe dessous et devient illisible. */
     .dp-wrap{max-width:1060px;margin:0 auto;padding:6.5rem 1rem 4rem}
@@ -37,7 +36,6 @@
     .dp-file{border:1px solid var(--line);border-radius:10px;padding:.5rem .7rem;background:#fff;font-size:.82rem;display:flex;align-items:center;gap:.6rem}
     .dp-file img{width:44px;height:44px;object-fit:cover;border-radius:6px}
     .dp-actions{display:flex;gap:.8rem;flex-wrap:wrap;align-items:center;margin-top:1.2rem}
-</style>
 @endsection
 
 @section('content')
@@ -133,38 +131,101 @@
         </div>
     </form>
 
+    {{-- ============ PHOTOS PAR BIEN ============ --}}
     <div class="dp-card" style="margin-top:1.4rem">
         <h2>Photos et documents</h2>
         <p class="hint">
-            JPEG, PNG, WebP ou PDF, 8 Mo maximum par fichier. Plans de masse, ACD, agréments,
-            photos des biens. Ces fichiers ne sont visibles que par notre bureau d'études.
+            JPEG, PNG, WebP ou PDF, 8 Mo maximum par fichier. Chaque photo se rattache au bien
+            concerné ; les pièces qui valent pour tout le site vont dans le dernier bloc.
+            Ces fichiers ne sont visibles que par notre bureau d'études.
         </p>
+
+        @forelse ($soumission->biens as $bien)
+            <div class="dp-bien" style="margin-bottom:1.1rem">
+                <div class="dp-bien-head">
+                    <strong>{{ $bien->libelle }} <span style="font-weight:400;color:var(--muted)">— {{ $bien->site }}</span></strong>
+                </div>
+
+                <form method="POST" action="{{ route('promoteur.depot.fichiers', $invitation->token) }}" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="bien_propose_id" value="{{ $bien->id }}">
+                    <div class="dp-grid c2">
+                        <div class="dp-field">
+                            <label for="cat-{{ $bien->id }}">Type</label>
+                            <select id="cat-{{ $bien->id }}" name="categorie">
+                                <option value="photo">Photo du bien</option>
+                                <option value="document">Document (plan, ACD, agrément…)</option>
+                            </select>
+                        </div>
+                        <div class="dp-field">
+                            <label for="fic-{{ $bien->id }}">Fichiers</label>
+                            <input id="fic-{{ $bien->id }}" type="file" name="fichiers[]" multiple accept=".jpg,.jpeg,.png,.webp,.pdf" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="dp-btn dp-btn-ghost" style="margin-top:.9rem">Ajouter à ce bien</button>
+                </form>
+
+                @if ($bien->fichiers->isNotEmpty())
+                    <div class="dp-files">
+                        @foreach ($bien->fichiers as $fichier)
+                            <div class="dp-file">
+                                @if ($fichier->estImage())
+                                    <img src="{{ route('promoteur.depot.fichier', [$invitation->token, $fichier]) }}" alt="">
+                                @endif
+                                <span>
+                                    <strong>{{ $fichier->nom_original }}</strong><br>
+                                    <span style="color:var(--muted)">{{ $fichier->categorie }} · {{ $fichier->tailleLisible() }}</span>
+                                </span>
+                                <form method="POST" action="{{ route('promoteur.depot.fichiers.supprimer', [$invitation->token, $fichier]) }}">
+                                    @csrf
+                                    <button type="submit" class="dp-btn-link">Retirer</button>
+                                </form>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+        @empty
+            <p style="font-size:.9rem;color:var(--muted)">
+                Ajoutez d'abord un bien ci-dessus, puis enregistrez le brouillon : vous pourrez
+                ensuite y joindre ses photos.
+            </p>
+        @endforelse
+
+        {{-- Un bien tout juste ajouté n'a pas encore d'identifiant en base : il faut enregistrer
+             le brouillon avant de pouvoir lui rattacher un fichier. --}}
+        <div style="background:#FCFBF8;border:1px solid var(--line);border-radius:11px;padding:.9rem 1.1rem;font-size:.85rem;color:var(--muted);margin-top:.4rem">
+            Vous venez d'ajouter un bien ? Enregistrez le brouillon pour qu'il apparaisse ici et
+            puisse recevoir ses photos.
+        </div>
+    </div>
+
+    {{-- ============ DOCUMENTS GENERAUX ============ --}}
+    <div class="dp-card" style="margin-top:1.1rem">
+        <h2>Documents généraux</h2>
+        <p class="hint">Pièces qui ne concernent aucun bien en particulier : agrément promoteur, plan d'ensemble du site…</p>
 
         <form method="POST" action="{{ route('promoteur.depot.fichiers', $invitation->token) }}" enctype="multipart/form-data">
             @csrf
-            <div class="dp-grid c2">
-                <div class="dp-field">
-                    <label for="categorie">Type</label>
-                    <select id="categorie" name="categorie">
-                        <option value="photo">Photos du bien</option>
-                        <option value="document">Document (plan, ACD, agrément…)</option>
-                    </select>
-                </div>
-                <div class="dp-field">
-                    <label for="fichiers">Fichiers</label>
-                    <input id="fichiers" type="file" name="fichiers[]" multiple accept=".jpg,.jpeg,.png,.webp,.pdf" required>
-                </div>
+            <input type="hidden" name="categorie" value="document">
+            <div class="dp-field">
+                <label for="fichiers-gen">Fichiers</label>
+                <input id="fichiers-gen" type="file" name="fichiers[]" multiple accept=".jpg,.jpeg,.png,.webp,.pdf" required>
             </div>
             <button type="submit" class="dp-btn dp-btn-ghost" style="margin-top:.9rem">Ajouter</button>
         </form>
 
-        @if ($soumission->fichiers->isNotEmpty())
+        @php $generaux = $soumission->fichiers->whereNull('bien_propose_id'); @endphp
+        @if ($generaux->isNotEmpty())
             <div class="dp-files">
-                @foreach ($soumission->fichiers as $fichier)
+                @foreach ($generaux as $fichier)
                     <div class="dp-file">
+                        @if ($fichier->estImage())
+                            <img src="{{ route('promoteur.depot.fichier', [$invitation->token, $fichier]) }}" alt="">
+                        @endif
                         <span>
                             <strong>{{ $fichier->nom_original }}</strong><br>
-                            <span style="color:var(--muted)">{{ $fichier->categorie }} · {{ $fichier->tailleLisible() }}</span>
+                            <span style="color:var(--muted)">{{ $fichier->tailleLisible() }}</span>
                         </span>
                         <form method="POST" action="{{ route('promoteur.depot.fichiers.supprimer', [$invitation->token, $fichier]) }}">
                             @csrf
@@ -175,6 +236,7 @@
             </div>
         @endif
     </div>
+
 </div>
 @endsection
 

@@ -84,23 +84,23 @@ a{text-decoration:none;color:inherit}
 /* ---- header / nav ---- */
 header{position:fixed;top:0;left:0;right:0;z-index:60;transition:.35s;background:linear-gradient(180deg,rgba(8,18,34,.45),rgba(8,18,34,0))}
 header.solid{background:rgba(255,255,255,.92);backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--line)}
-.nav{display:flex;align-items:center;justify-content:space-between;height:84px;transition:.35s}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:20px;height:84px;transition:.35s;flex-wrap:nowrap}
 header.solid .nav{height:72px}
 .logo{display:flex;align-items:center;gap:12px}
 .logo .chip{height:44px;width:44px;border-radius:11px;background:#fff;box-shadow:0 4px 14px rgba(16,36,63,.16);display:flex;align-items:center;justify-content:center;flex:0 0 auto;transition:.3s}
 .logo .chip img{height:34px;width:34px;object-fit:contain}
-.logo .bn{font-family:var(--serif);font-weight:600;font-size:21px;letter-spacing:.04em;line-height:1.02;color:#fff;transition:.3s}
-.logo .bn small{display:block;font-family:var(--sans);font-weight:500;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.62);margin-top:2px}
+.logo .bn{font-family:var(--serif);font-weight:600;font-size:21px;letter-spacing:.04em;line-height:1.02;color:#fff;transition:.3s;white-space:nowrap}
+.logo .bn small{display:block;font-family:var(--sans);font-weight:500;font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:rgba(255,255,255,.62);margin-top:2px;white-space:nowrap}
 header.solid .logo .bn{color:var(--ink)}
 header.solid .logo .bn small{color:var(--muted)}
-.menu{display:flex;gap:34px;font-size:14px;font-weight:500;color:rgba(255,255,255,.9)}
+.menu{display:flex;align-items:center;gap:34px;font-size:14px;font-weight:500;color:rgba(255,255,255,.9);white-space:nowrap}
 header.solid .menu{color:var(--text)}
 .menu a{position:relative;padding:6px 0;transition:.2s}
 .menu a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--orange);transition:.25s}
 .menu a:hover,.menu a.active{color:var(--orange2)}
 .menu a:hover::after,.menu a.active::after{width:100%}
-.nav-cta{display:flex;align-items:center;gap:10px}
-.nav-login{font-size:14px;font-weight:600;color:#fff;padding:11px 14px;transition:.2s}
+.nav-cta{display:flex;align-items:center;gap:10px;flex:none;white-space:nowrap}
+.nav-login{font-size:14px;font-weight:600;color:#fff;padding:11px 14px;transition:.2s;white-space:nowrap}
 header.solid .nav-login{color:var(--ink)}
 .nav-login:hover{color:var(--orange2)}
 .burger{display:none;flex-direction:column;gap:5px;width:42px;height:42px;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer}
@@ -197,6 +197,10 @@ footer{background:var(--ink2);padding:76px 0 36px;color:#fff}
 
 /* ---- responsive ---- */
 @media(max-width:1024px){.wrap{padding:0 32px}.props{grid-template-columns:repeat(2,1fr)}}
+/* Entre 860 et 1180px, on resserre le menu plutot que de le laisser deborder :
+   le burger ne prend le relais qu a 860px. */
+@media(max-width:1180px){.menu{gap:22px;font-size:13.5px}.nav-login{padding:11px 10px}}
+@media(max-width:960px){.menu{gap:16px;font-size:13px}}
 @media(max-width:860px){
   .menu,.nav-login{display:none}
   .burger{display:flex}
@@ -217,14 +221,14 @@ footer{background:var(--ink2);padding:76px 0 36px;color:#fff}
     <nav class="menu">
       <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">Accueil</a>
       <a href="{{ route('biens') }}" class="{{ request()->routeIs('biens') ? 'active' : '' }}">Nos offres</a>
-      <a href="{{ route('adhesion') }}" class="{{ request()->routeIs('adhesion') ? 'active' : '' }}">L'adhésion</a>
-      <a href="{{ route('presentation') }}" class="{{ request()->routeIs('presentation') ? 'active' : '' }}">Le Bureau d'études LCM</a>
+      <a href="{{ route('adhesion') }}" class="{{ request()->routeIs('adhesion') ? 'active' : '' }}">Adhésion</a>
+      <a href="{{ route('presentation') }}" class="{{ request()->routeIs('presentation') ? 'active' : '' }}">Bureau d'études</a>
       <a href="{{ route('faq') }}" class="{{ request()->routeIs('faq') ? 'active' : '' }}">FAQ</a>
       <a href="{{ route('application') }}" class="{{ request()->routeIs('application') ? 'active' : '' }}">Application</a>
       <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a>
     </nav>
     <div class="nav-cta">
-      <a class="nav-login" href="{{ route('consultation.index') }}">Se connecter</a>
+      <a class="nav-login" href="{{ route('consultation.index') }}">Connexion</a>
       <a class="btn btn-orange" href="{{ route('register.create') }}" style="padding:12px 20px">Créer un compte</a>
       <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>

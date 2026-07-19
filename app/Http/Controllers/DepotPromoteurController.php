@@ -8,6 +8,7 @@ use App\Models\InvitationPromoteur;
 use App\Models\SoumissionPromoteur;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -47,7 +48,7 @@ class DepotPromoteurController extends Controller
 
         return view('promoteur.depot', [
             'invitation' => $invitation,
-            'soumission' => $soumission->load('biens.lots', 'fichiers'),
+            'soumission' => $soumission->load('biens.lots', 'biens.fichiers', 'fichiers'),
             'types' => BienPropose::TYPES,
             'modes' => BienPropose::MODES,
             'documents' => BienPropose::DOCUMENTS,
@@ -254,6 +255,27 @@ class DepotPromoteurController extends Controller
         $fichier->delete();
 
         return back()->with('ok', 'Fichier supprimé.');
+    }
+
+    /**
+     * Affiche une pièce déposée, pour que le promoteur revoie ce qu'il a envoyé.
+     *
+     * Le jeton ne donne accès qu'aux fichiers de son propre dépôt : sans cette
+     * vérification, un promoteur pourrait lire les plans d'un concurrent en
+     * changeant l'identifiant dans l'URL.
+     */
+    public function fichier(string $token, FichierPropose $fichier): Response
+    {
+        $invitation = $this->invitation($token);
+        $soumission = $this->brouillon($invitation);
+
+        abort_unless($fichier->soumission_id === $soumission->id, 404);
+        abort_unless(Storage::disk('local')->exists($fichier->chemin), 404);
+
+        return response(Storage::disk('local')->get($fichier->chemin), 200, [
+            'Content-Type' => $fichier->mime,
+            'Content-Disposition' => 'inline; filename="'.addslashes($fichier->nom_original).'"',
+        ]);
     }
 
     private function invitation(string $token): InvitationPromoteur
